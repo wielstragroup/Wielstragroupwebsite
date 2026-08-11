@@ -18,6 +18,7 @@ export const projectSchema = z.object({
     .string()
     .trim()
     .url()
+    .refine((value) => value.startsWith("https://") || value.startsWith("http://"))
     .or(z.literal(""))
     .transform((value) => (value === "" ? null : value)),
   date: z.string().date(),

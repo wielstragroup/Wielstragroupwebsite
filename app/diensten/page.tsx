@@ -30,6 +30,7 @@ const services = [
 export default function ServicesPage() {
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <h1 className="sr-only">Diensten van Wielstra Group</h1>
       <SectionHeading
         eyebrow="Diensten"
         title="Praktische ondersteuning voor jouw online groei"

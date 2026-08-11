@@ -15,6 +15,7 @@ export default async function PortfolioPage() {
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <h1 className="sr-only">Portfolio van Wielstra Group</h1>
       <SectionHeading
         eyebrow="Portfolio"
         title="Projecten die direct uit het CMS worden geladen"

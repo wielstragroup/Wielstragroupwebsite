@@ -75,6 +75,21 @@ as $$
   );
 $$;
 
+create or replace function public.prevent_unauthorized_role_change()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if new.role is distinct from old.role and not public.is_admin() then
+    raise exception 'Only admins can change roles';
+  end if;
+
+  return new;
+end;
+$$;
+
 alter table public.profiles enable row level security;
 alter table public.projects enable row level security;
 alter table public.contact_messages enable row level security;
@@ -89,6 +104,17 @@ on public.profiles
 for update
 using (auth.uid() = id)
 with check (auth.uid() = id);
+
+create policy "profiles_admin_update"
+on public.profiles
+for update
+using (public.is_admin())
+with check (public.is_admin());
+
+drop trigger if exists prevent_unauthorized_role_change on public.profiles;
+create trigger prevent_unauthorized_role_change
+before update on public.profiles
+for each row execute function public.prevent_unauthorized_role_change();
 
 create policy "projects_public_read_published"
 on public.projects

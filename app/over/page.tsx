@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <section className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+      <h1 className="sr-only">Over Wielstra Group</h1>
       <SectionHeading
         eyebrow="Over"
         title="Persoonlijke samenwerking met professionele uitvoering"
