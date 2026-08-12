@@ -8,7 +8,7 @@ import { projectInputToDb } from "@/lib/projects";
 import { projectSchema } from "@/lib/validation";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
-const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/svg+xml"]);
+const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/jpg", "image/png", "image/webp", "image/svg+xml"]);
 
 function normalizeImageList(raw: string) {
   return raw
@@ -110,6 +110,59 @@ export async function toggleProjectAction(formData: FormData) {
   redirect("/admin/projects?success=Project+bijgewerkt");
 }
 
+export async function uploadSingleImageServerAction(
+  formData: FormData
+): Promise<{ success: boolean; url?: string; error?: string }> {
+  try {
+    const { supabase } = await requireAdmin();
+    const file = formData.get("file");
+
+    if (!(file instanceof File) || file.size === 0) {
+      return { success: false, error: "Selecteer een geldig bestand." };
+    }
+
+    if (!ALLOWED_IMAGE_TYPES.has(file.type.toLowerCase())) {
+      return {
+        success: false,
+        error: "Dit bestandstype wordt niet ondersteund. Alleen JPG, PNG, WebP of SVG.",
+      };
+    }
+
+    if (file.size > MAX_IMAGE_SIZE) {
+      return {
+        success: false,
+        error: "Deze afbeelding is te groot. Maximaal 5MB toegestaan.",
+      };
+    }
+
+    const extension = file.name.split(".").pop()?.toLowerCase() ?? "bin";
+    const safeName = file.name
+      .replace(/\.[^/.]+$/, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9-]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80);
+
+    const path = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}-${safeName || "image"}.${extension}`;
+
+    const { error } = await supabase.storage.from("project-images").upload(path, file, {
+      cacheControl: "3600",
+      upsert: false,
+      contentType: file.type,
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    const { data } = supabase.storage.from("project-images").getPublicUrl(path);
+    return { success: true, url: data.publicUrl };
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Upload mislukt.";
+    return { success: false, error: message };
+  }
+}
+
 export async function uploadImageAction(formData: FormData) {
   const { supabase } = await requireAdmin();
   const file = formData.get("image");
@@ -118,7 +171,7 @@ export async function uploadImageAction(formData: FormData) {
     redirect("/admin/projects?error=Selecteer+een+bestand");
   }
 
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+  if (!ALLOWED_IMAGE_TYPES.has(file.type.toLowerCase())) {
     redirect("/admin/projects?error=Alleen+JPG,+PNG,+WEBP+of+SVG");
   }
 

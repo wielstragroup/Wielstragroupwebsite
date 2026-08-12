@@ -1,9 +1,48 @@
-export function SectionHeading({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
+type SectionHeadingProps = {
+  eyebrow?: string;
+  title: string;
+  text?: string;
+  align?: "center" | "left";
+  theme?: "dark" | "light";
+};
+
+export function SectionHeading({
+  eyebrow,
+  title,
+  text,
+  align = "center",
+  theme = "light",
+}: SectionHeadingProps) {
+  const isDark = theme === "dark";
+  const alignClasses = align === "left" ? "text-left" : "text-center mx-auto";
+
   return (
-    <div className="mx-auto mb-10 max-w-3xl text-center">
-      {eyebrow ? <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">{eyebrow}</p> : null}
-      <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">{title}</h2>
-      {text ? <p className="mt-4 text-base leading-7 text-slate-600">{text}</p> : null}
+    <div className={`mb-12 max-w-3xl ${alignClasses}`}>
+      {eyebrow ? (
+        <div className={`mb-4 inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-semibold uppercase tracking-wider ${
+          isDark
+            ? "border border-slate-800 bg-slate-900 text-slate-300"
+            : "border border-slate-200 bg-slate-100 text-slate-700"
+        }`}>
+          <span>{eyebrow}</span>
+        </div>
+      ) : null}
+      <h2
+        className={`text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl ${
+          isDark ? "text-white" : "text-slate-950"
+        }`}
+      >
+        {title}
+      </h2>
+      {text ? (
+        <p
+          className={`mt-4 text-base leading-relaxed sm:text-lg ${
+            isDark ? "text-slate-400" : "text-slate-600"
+          }`}
+        >
+          {text}
+        </p>
+      ) : null}
     </div>
   );
 }

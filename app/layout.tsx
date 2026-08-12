@@ -34,8 +34,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="nl" className="h-full">
-      <body className="flex min-h-full flex-col bg-slate-50 text-slate-900">
+    <html lang="nl" className="h-full scroll-smooth">
+      <body className="flex min-h-full flex-col bg-slate-950 text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

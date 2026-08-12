@@ -6,7 +6,7 @@ import { getPublishedProjects } from "@/lib/projects";
 
 export const metadata: Metadata = {
   title: "Portfolio",
-  description: "Bekijk recente websiteprojecten van Wielstra Group, opgebouwd vanuit het portfolio CMS.",
+  description: "Bekijk recente websiteprojecten en online opleveringen van Wielstra Group.",
   alternates: { canonical: "/portfolio" },
 };
 
@@ -14,24 +14,35 @@ export default async function PortfolioPage() {
   const projects = await getPublishedProjects();
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="sr-only">Portfolio van Wielstra Group</h1>
-      <SectionHeading
-        eyebrow="Portfolio"
-        title="Projecten die direct uit het CMS worden geladen"
-        text="Nieuwe projecten verschijnen automatisch zodra ze gepubliceerd zijn in het dashboard."
-      />
-      {projects.length === 0 ? (
-        <p className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
-          Er zijn nog geen gepubliceerde projecten.
-        </p>
-      ) : (
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+    <div className="bg-slate-950 text-slate-100">
+      {/* Header */}
+      <section className="relative border-b border-slate-800 bg-slate-950 py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            theme="dark"
+            eyebrow="Portfolio"
+            title="Recente projecten"
+            text="Een overzicht van websites en online oplossingen die we voor ondernemers hebben ontwikkeld."
+          />
         </div>
-      )}
-    </section>
+      </section>
+
+      {/* Portfolio Grid */}
+      <section className="bg-slate-50 py-16 text-slate-900 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {projects.length === 0 ? (
+            <div className="rounded-3xl border border-slate-200 bg-white p-12 text-center shadow-sm">
+              <p className="text-base text-slate-600">Er zijn momenteel nog geen openbare projecten te tonen.</p>
+            </div>
+          ) : (
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project) => (
+                <ProjectCard key={project.id} project={project} theme="light" />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }
