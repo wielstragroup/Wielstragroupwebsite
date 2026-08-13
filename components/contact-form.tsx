@@ -1,14 +1,14 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { submitContactForm, type ContactState } from "@/app/contact/actions";
 
 const initialState: ContactState = {};
 
 export function ContactForm({ theme = "light" }: { theme?: "dark" | "light" }) {
-  const [state, action, pending] = useActionState(submitContactForm, initialState);
-  const isDark = theme === "dark";
-
+const [state, action, pending] = useActionState(submitContactForm, initialState);
+const [messageLength, setMessageLength] = useState(0);
+const isDark = theme === "dark";
   return (
     <form
       action={action}
@@ -34,7 +34,7 @@ export function ContactForm({ theme = "light" }: { theme?: "dark" | "light" }) {
         </label>
 
         <label className="flex flex-col gap-2 text-sm font-semibold">
-          <span>Bedrijfsnaam <span className="text-slate-500">*</span></span>
+          <span>Bedrijfsnaam <span className="text-slate-500">(optioneel)</span></span>
           <input
             name="companyName"
             required
@@ -65,16 +65,26 @@ export function ContactForm({ theme = "light" }: { theme?: "dark" | "light" }) {
         <label className="flex flex-col gap-2 text-sm font-semibold sm:col-span-2">
           <span>Bericht <span className="text-slate-500">*</span></span>
           <textarea
-            name="message"
-            required
-            rows={5}
-            placeholder="Waar kunnen we je mee helpen?"
-            className={`rounded-xl border px-4 py-3 text-sm transition focus:outline-none focus:ring-2 ${
-              isDark
-                ? "border-slate-800 bg-slate-950 text-white placeholder-slate-500 focus:border-slate-400 focus:ring-slate-700"
-                : "border-slate-300 bg-slate-50/50 text-slate-900 placeholder-slate-400 focus:border-slate-900 focus:bg-white focus:ring-slate-900/10"
-            }`}
-          />
+  name="message"
+  required
+  rows={5}
+  maxLength={3000}
+  onChange={(e) => setMessageLength(e.target.value.length)}
+  placeholder="Waar kunnen we je mee helpen?"
+  className={`rounded-xl border px-4 py-3 text-sm transition focus:outline-none focus:ring-2 ${
+    isDark
+      ? "border-slate-800 bg-slate-950 text-white placeholder-slate-500 focus:border-slate-400 focus:ring-slate-700"
+      : "border-slate-300 bg-slate-50/50 text-slate-900 placeholder-slate-400 focus:border-slate-900 focus:bg-white focus:ring-slate-900/10"
+  }`}
+/>
+<div className="flex items-center justify-between text-xs font-normal text-slate-500">
+  <span>
+    {messageLength < 20
+      ? `Nog ${20 - messageLength} tekens`
+      : "Voldoende tekens"}
+  </span>
+  <span>{messageLength} / 3000 tekens</span>
+</div>
         </label>
       </div>
 

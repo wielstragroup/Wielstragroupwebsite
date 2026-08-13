@@ -28,7 +28,7 @@ export const projectSchema = z.object({
 
 export const contactSchema = z.object({
   name: z.string().trim().min(2).max(120),
-  companyName: z.string().trim().min(2).max(120),
+  companyName: z.string().trim().max(120),
   email: z.string().trim().email().max(160),
   message: z.string().trim().min(20).max(3000),
   website: z.string().optional(),
