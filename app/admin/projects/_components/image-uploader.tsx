@@ -137,7 +137,7 @@ export function ImageUploader({ defaultValue = "", name = "image" }: ImageUpload
               </div>
               <div>
                 <p className="text-sm font-semibold text-slate-900">Afbeelding uploaden</p>
-                <p className="mt-1 text-xs text-slate-500">Sleep een bestand hierheen of klik om te kiezen (JPG, PNG, WebP, max 5MB)</p>
+                <p className="mt-1 text-xs text-slate-500">Sleep een bestand hierheen of klik om te kiezen (JPG, PNG, WebP, AVIF — max 5MB)</p>
               </div>
             </div>
           )}
@@ -148,7 +148,7 @@ export function ImageUploader({ defaultValue = "", name = "image" }: ImageUpload
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/svg+xml"
+        accept="image/jpeg,image/png,image/webp,image/avif"
         onChange={handleFileChange}
         className="hidden"
       />

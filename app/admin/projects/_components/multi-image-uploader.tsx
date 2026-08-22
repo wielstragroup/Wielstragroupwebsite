@@ -147,7 +147,7 @@ export function MultiImageUploader({ defaultValue = [], name = "additionalImages
         ref={fileInputRef}
         type="file"
         multiple
-        accept="image/jpeg,image/png,image/webp,image/svg+xml"
+        accept="image/jpeg,image/png,image/webp,image/avif"
         onChange={handleFileChange}
         className="hidden"
       />
