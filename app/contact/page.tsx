@@ -2,14 +2,19 @@ import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/contact-form";
 import { SectionHeading } from "@/components/section-heading";
+import { safeUrlOrNull } from "@/lib/security";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Bespreek je websiteproject met Wielstra Group. Neem contact op voor een vrijblijvend voorstel.",
+  description:
+    "Bespreek je websiteproject met Wielstra Group. Neem contact op voor een vrijblijvend voorstel.",
   alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
+  const whatsappUrl = safeUrlOrNull(settings.whatsappUrl);
   return (
     <div className="bg-slate-950 text-slate-100">
       {/* Header */}
@@ -39,17 +44,53 @@ export default function ContactPage() {
                 </p>
 
                 <div className="mt-8 space-y-4 border-t border-slate-100 pt-6">
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
+                  {settings.email ? (
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">E-mail</p>
+                        <a href={`mailto:${settings.email}`} className="break-all text-sm font-semibold text-slate-900 underline-offset-4 hover:underline">
+                          {settings.email}
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Rechtstreeks berichen</p>
-                      <p className="text-sm font-semibold text-slate-900">Via het contactformulier</p>
+                  ) : null}
+
+                  {settings.phone ? (
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.5 1.21l-2.26 1.13a11 11 0 005.52 5.52l1.13-2.26a1 1 0 011.21-.5l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Telefoon</p>
+                        <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="text-sm font-semibold text-slate-900 underline-offset-4 hover:underline">
+                          {settings.phone}
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  ) : null}
+
+                  {whatsappUrl ? (
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 01-13.5 7.8L3 21l1.2-4.5A9 9 0 1121 12z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">WhatsApp</p>
+                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-slate-900 underline-offset-4 hover:underline">
+                          Stuur een bericht
+                        </a>
+                      </div>
+                    </div>
+                  ) : null}
 
                   <div className="flex items-start gap-3">
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
@@ -59,8 +100,12 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Werkgebied</p>
-                      <p className="text-sm font-semibold text-slate-900">Nederland & lokale ondernemers</p>
+                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                        {settings.address ? "Adres" : "Werkgebied"}
+                      </p>
+                      <p className="whitespace-pre-line text-sm font-semibold text-slate-900">
+                        {settings.address || "Nederland & lokale ondernemers"}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -76,7 +121,18 @@ export default function ContactPage() {
 
             {/* Contact Form */}
             <div className="lg:col-span-7">
-              <ContactForm theme="light" />
+              {settings.contactFormEnabled ? (
+                <ContactForm theme="light" />
+              ) : (
+                <div className="rounded-3xl border border-slate-200/80 bg-white p-8 text-sm text-slate-600 shadow-sm">
+                  <p className="font-semibold text-slate-900">
+                    Het contactformulier is tijdelijk uitgeschakeld.
+                  </p>
+                  <p className="mt-2">
+                    Je kunt ons bereiken via de contactgegevens hiernaast.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

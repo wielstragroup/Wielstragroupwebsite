@@ -5,8 +5,14 @@ import { siteUrl } from "@/lib/env";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: "/admin" },
+      {
+        userAgent: "*",
+        allow: "/",
+        // Zowel /admin zelf als alles eronder uitsluiten.
+        disallow: ["/admin", "/admin/", "/api/"],
+      },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }
