@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type DragEvent } from "react";
+import { useState, type DragEvent } from "react";
 import Link from "next/link";
 
 export type SectionListItem = {
@@ -11,16 +11,23 @@ export type SectionListItem = {
   enabled: boolean;
 };
 
-/**
- * Sleepbare sectielijst.
- *
- * Werkt met de native HTML drag & drop API zodat er geen extra
- * dependency nodig is. Op touch-apparaten is slepen onbetrouwbaar,
- * daarom staan er altijd ook omhoog/omlaag-knoppen. Die knoppen zijn
- * gewone form-submits naar een server action, dus alles blijft werken
- * zonder JavaScript.
- */
 export function SectionList({
+  items,
+  reorderAction,
+}: {
+  items: SectionListItem[];
+  reorderAction: (formData: FormData) => void;
+}) {
+  return (
+    <SectionListState
+      key={items.map((item) => `${item.id}:${item.enabled}:${item.adminLabel}`).join("|")}
+      items={items}
+      reorderAction={reorderAction}
+    />
+  );
+}
+
+function SectionListState({
   items,
   reorderAction,
 }: {
@@ -30,13 +37,6 @@ export function SectionList({
   const [order, setOrder] = useState(items);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dirty, setDirty] = useState(false);
-
-  // Wanneer de server nieuwe data teruggeeft (na opslaan of een
-  // andere actie) de lokale volgorde weer gelijktrekken.
-  useEffect(() => {
-    setOrder(items);
-    setDirty(false);
-  }, [items]);
 
   function handleDragStart(id: string) {
     setDraggingId(id);
@@ -74,15 +74,24 @@ export function SectionList({
     <div className="space-y-3">
       {dirty ? (
         <form action={reorderAction}>
-          <input type="hidden" name="order" value={order.map((i) => i.id).join(",")} />
+          <input
+            type="hidden"
+            name="order"
+            value={order.map((i) => i.id).join(",")}
+          />
+
           <div className="flex flex-wrap items-center gap-3 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900 ring-1 ring-amber-200">
-            <span className="flex-1">De volgorde is gewijzigd maar nog niet opgeslagen.</span>
+            <span className="flex-1">
+              De volgorde is gewijzigd maar nog niet opgeslagen.
+            </span>
+
             <button
               type="submit"
               className="rounded-lg bg-amber-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-amber-800"
             >
               Volgorde opslaan
             </button>
+
             <button
               type="button"
               onClick={() => {
@@ -128,7 +137,10 @@ export function SectionList({
                 <p className="truncate text-sm font-semibold text-slate-900">
                   {item.adminLabel || item.typeLabel}
                 </p>
-                <p className="text-xs text-slate-500">{item.typeLabel}</p>
+
+                <p className="text-xs text-slate-500">
+                  {item.typeLabel}
+                </p>
               </div>
 
               <span
