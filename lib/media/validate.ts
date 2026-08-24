@@ -193,7 +193,6 @@ export function sanitizeFileName(raw: string | null | undefined): string {
   name = name.split(/[\\/]/).pop() ?? "";
 
   // Control chars, zero-width en bidi-overrides (o.a. de RLO-truc).
-  // eslint-disable-next-line no-control-regex
   name = name.replace(/[\u0000-\u001f\u007f]/g, "");
   name = name.replace(/[\u200b-\u200f\u202a-\u202e\u2066-\u2069\ufeff]/g, "");
 
