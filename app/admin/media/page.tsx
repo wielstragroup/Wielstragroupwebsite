@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { MediaGrid } from "@/components/admin/media/media-grid";
+import { MediaUploader } from "@/components/admin/media/media-uploader";
 import { requireAdmin } from "@/lib/auth";
 import { ALLOWED_MEDIA_MIME_TYPES } from "@/lib/media/constants";
 import { listMedia } from "@/lib/media/data";
@@ -84,6 +85,8 @@ export default async function AdminMediaPage({ searchParams }: AdminMediaPagePro
       {success ? <p className="rounded-xl bg-emerald-100 px-4 py-2 text-sm text-emerald-900">{success}</p> : null}
       {error ? <p className="rounded-xl bg-red-100 px-4 py-2 text-sm text-red-900">{error}</p> : null}
 
+      <MediaUploader />
+
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <form method="get" className="flex flex-wrap items-end gap-3">
           <div className="min-w-[12rem] flex-1">
@@ -145,15 +148,15 @@ export default async function AdminMediaPage({ searchParams }: AdminMediaPagePro
           <p className="mt-1 text-sm text-slate-500">
             {hasFilters
               ? "Pas de zoekterm of het filter aan."
-              : "Uploaden kan zodra die functie beschikbaar is."}
+              : "Upload hierboven je eerste afbeelding."}
           </p>
         </section>
       ) : (
         <MediaGrid items={result.items} />
       )}
 
-      {result.pageCount > 1 && (
-  <nav className="flex items-center justify-between gap-3" aria-label="Paginering">
+      {result.pageCount > 1 ? (
+        <nav className="flex items-center justify-between gap-3" aria-label="Paginering">
           {currentPage > 1 ? (
             <Link
               href={buildPageHref(currentPage - 1, search, mimeType)}
@@ -179,8 +182,8 @@ export default async function AdminMediaPage({ searchParams }: AdminMediaPagePro
           ) : (
             <span className="rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-400">Volgende</span>
           )}
-                </nav>
-      )}
+        </nav>
+      ) : null}
     </div>
   );
 }
