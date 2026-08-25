@@ -49,6 +49,8 @@ export type ListMediaOptions = {
   page?: number;
   perPage?: number;
   includeDeleted?: boolean;
+  /** Alleen de prullenbak. Nodig om soft-deleted bestanden te kunnen bereiken. */
+  onlyDeleted?: boolean;
 };
 
 export type ListMediaResult = {
@@ -157,7 +159,9 @@ export async function listMedia(options: ListMediaOptions = {}): Promise<ListMed
 
   let query = supabase.from("media").select(MEDIA_COLUMNS, { count: "exact" });
 
-  if (!options.includeDeleted) {
+  if (options.onlyDeleted) {
+    query = query.not("deleted_at", "is", null);
+  } else if (!options.includeDeleted) {
     query = query.is("deleted_at", null);
   }
 
@@ -361,6 +365,27 @@ export async function softDeleteMedia(id: string): Promise<MediaMutationResult> 
 
   if (error || !data) {
     return { ok: false, error: error?.message ?? "Verwijderen is mislukt." };
+  }
+
+  return { ok: true, media: mapMedia(data) };
+}
+
+/** Haalt een bestand terug uit de prullenbak. */
+export async function restoreMedia(id: string): Promise<MediaMutationResult> {
+  const supabase = await createServerSupabaseClient();
+  if (!supabase) {
+    return { ok: false, error: "Supabase is niet geconfigureerd." };
+  }
+
+  const { data, error } = await supabase
+    .from("media")
+    .update({ deleted_at: null })
+    .eq("id", id)
+    .select(MEDIA_COLUMNS)
+    .single();
+
+  if (error || !data) {
+    return { ok: false, error: error?.message ?? "Terugzetten is mislukt." };
   }
 
   return { ok: true, media: mapMedia(data) };
