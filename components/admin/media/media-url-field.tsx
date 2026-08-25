@@ -51,7 +51,7 @@ export function MediaUrlField({
         <input
           id={fieldId}
           name={name}
-          type="url"
+          type="text"
           required={required}
           value={value}
           placeholder={placeholder}
