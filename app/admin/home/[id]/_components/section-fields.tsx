@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { TextAreaField, TextField } from "@/components/admin/form-fields";
+import { MediaUrlField } from "@/components/admin/media/media-url-field";
 import type { SectionContentMap, SectionType } from "@/lib/sections/schema";
 
 /**
@@ -120,21 +121,23 @@ export function SectionFields({
           <TextField name="primaryCtaUrl" label="Primaire knop: link" defaultValue={c.primaryCtaUrl} />
           <TextField name="secondaryCtaLabel" label="Secundaire knop: tekst" defaultValue={c.secondaryCtaLabel} />
           <TextField name="secondaryCtaUrl" label="Secundaire knop: link" defaultValue={c.secondaryCtaUrl} />
-          <TextField
-            name="desktopImage"
-            label="Afbeelding desktop (browservenster)"
-            defaultValue={c.desktopImage}
-            hint="Leeg = de afbeelding van het eerste uitgelichte project."
-            full
-          />
+          <div className="sm:col-span-2">
+            <MediaUrlField
+              name="desktopImage"
+              label="Afbeelding desktop (browservenster)"
+              defaultValue={c.desktopImage}
+              helpText="Leeg = de afbeelding van het eerste uitgelichte project."
+            />
+          </div>
           <TextField name="desktopImageAlt" label="Alt-tekst desktopafbeelding" defaultValue={c.desktopImageAlt} full />
-          <TextField
-            name="mobileImage"
-            label="Afbeelding mobiel (telefoon)"
-            defaultValue={c.mobileImage}
-            hint="Leeg = dezelfde afbeelding als desktop."
-            full
-          />
+          <div className="sm:col-span-2">
+            <MediaUrlField
+              name="mobileImage"
+              label="Afbeelding mobiel (telefoon)"
+              defaultValue={c.mobileImage}
+              helpText="Leeg = dezelfde afbeelding als desktop."
+            />
+          </div>
           <TextField name="mobileImageAlt" label="Alt-tekst mobiele afbeelding" defaultValue={c.mobileImageAlt} full />
         </>
       );
@@ -292,7 +295,7 @@ export function SectionFields({
           <ThemeField value={c.theme} />
           <TextField name="title" label="Titel" defaultValue={c.title} full />
           <TextAreaField name="text" label="Tekst" defaultValue={c.text} rows={6} />
-          <TextField name="image" label="Afbeelding (URL)" defaultValue={c.image} />
+          <MediaUrlField name="image" label="Afbeelding (URL)" defaultValue={c.image} />
           <TextField name="imageAlt" label="Alt-tekst" defaultValue={c.imageAlt} />
           <SelectField
             name="imagePosition"
