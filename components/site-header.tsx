@@ -12,7 +12,13 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  companyName: string;
+  ctaLabel: string;
+  ctaUrl: string;
+};
+
+export function SiteHeader({ companyName, ctaLabel, ctaUrl }: SiteHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -25,11 +31,9 @@ export function SiteHeader() {
           className="group flex items-center gap-2.5 text-lg font-bold tracking-tight text-white transition-opacity hover:opacity-90"
         >
           <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-white font-black text-sm ring-1 ring-white/10">
-            W
+            {companyName.trim().charAt(0).toUpperCase() || "W"}
           </span>
-          <span>
-            Wielstra Group
-          </span>
+          <span>{companyName}</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -55,10 +59,10 @@ export function SiteHeader() {
         {/* Desktop CTA */}
         <div className="hidden items-center gap-4 md:flex">
           <Link
-            href="/contact"
+            href={ctaUrl}
             className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-200 active:scale-95"
           >
-            <span>Bespreek je project</span>
+            <span>{ctaLabel}</span>
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
@@ -108,11 +112,11 @@ export function SiteHeader() {
             })}
             <div className="pt-3">
               <Link
-                href="/contact"
+                href={ctaUrl}
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-center text-base font-semibold text-slate-950 transition hover:bg-slate-200"
               >
-                <span>Bespreek je project</span>
+                <span>{ctaLabel}</span>
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
