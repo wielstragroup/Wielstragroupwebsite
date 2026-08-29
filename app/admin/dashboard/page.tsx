@@ -25,23 +25,40 @@ const shortcuts = [
     title: "Portfolio",
     description: "Projecten beheren en publiceren.",
   },
+  {
+    href: "/admin/contact",
+    title: "Contactaanvragen",
+    description: "Inkomende berichten via het contactformulier bekijken.",
+  },
+  {
+    href: "/admin/analytics",
+    title: "Analytics",
+    description: "Bezoekstatistieken van de website bekijken.",
+  },
 ];
 
 export default async function AdminDashboardPage() {
   const { supabase } = await requireAdmin();
 
-  const [{ count: total }, { count: published }, { count: drafts }, { data: latest }, sections] =
-    await Promise.all([
-      supabase.from("projects").select("id", { count: "exact", head: true }),
-      supabase.from("projects").select("id", { count: "exact", head: true }).eq("published", true),
-      supabase.from("projects").select("id", { count: "exact", head: true }).eq("published", false),
-      supabase
-        .from("projects")
-        .select("id,title,created_at")
-        .order("created_at", { ascending: false })
-        .limit(5),
-      getAllHomeSections(),
-    ]);
+  const [
+    { count: total },
+    { count: published },
+    { count: drafts },
+    { data: latest },
+    { count: contactMessages },
+    sections,
+  ] = await Promise.all([
+    supabase.from("projects").select("id", { count: "exact", head: true }),
+    supabase.from("projects").select("id", { count: "exact", head: true }).eq("published", true),
+    supabase.from("projects").select("id", { count: "exact", head: true }).eq("published", false),
+    supabase
+      .from("projects")
+      .select("id,title,created_at")
+      .order("created_at", { ascending: false })
+      .limit(5),
+    supabase.from("contact_messages").select("id", { count: "exact", head: true }),
+    getAllHomeSections(),
+  ]);
 
   const visibleSections = sections.filter((section) => section.enabled).length;
 
@@ -51,7 +68,7 @@ export default async function AdminDashboardPage() {
         Dashboard
       </h1>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-sm text-slate-500">Projecten</p>
           <p className="mt-2 text-3xl font-semibold text-slate-950">{total ?? 0}</p>
@@ -74,6 +91,13 @@ export default async function AdminDashboardPage() {
             </span>
           </p>
         </article>
+        <Link
+          href="/admin/contact"
+          className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-slate-300 hover:shadow-md"
+        >
+          <p className="text-sm text-slate-500">Contactaanvragen</p>
+          <p className="mt-2 text-3xl font-semibold text-slate-950">{contactMessages ?? 0}</p>
+        </Link>
       </div>
 
       <section>

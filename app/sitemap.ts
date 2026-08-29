@@ -16,6 +16,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
   );
 
+  const legalRoutes = [
+    "/privacybeleid",
+    "/cookiebeleid",
+    "/algemene-voorwaarden",
+    "/disclaimer",
+  ].map((path) => ({
+    url: `${siteUrl}${path}`,
+    lastModified: now,
+    changeFrequency: "yearly" as const,
+    priority: 0.3,
+  }));
+
   // Alleen gepubliceerde projecten; adminpagina's komen hier nooit in
   // omdat ze niet uit deze lijst worden opgebouwd.
   const projectRoutes = projects.map((project) => ({
@@ -25,5 +37,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...projectRoutes];
+  return [...staticRoutes, ...legalRoutes, ...projectRoutes];
 }

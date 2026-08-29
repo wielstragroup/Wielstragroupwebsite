@@ -1,10 +1,10 @@
 "use server";
 
-import { headers } from "next/headers";
 import { Resend } from "resend";
 
 import { getSiteSettings } from "@/lib/site-settings";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { getClientIp } from "@/lib/request";
 import {
   escapeHtml,
   escapeHtmlMultiline,
@@ -21,18 +21,6 @@ export type ContactState = {
 /** Max 5 inzendingen per IP per 10 minuten. */
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-
-async function getClientIp(): Promise<string> {
-  const headerList = await headers();
-
-  const forwardedFor = headerList.get("x-forwarded-for");
-  if (forwardedFor) {
-    // Eerste waarde is de oorspronkelijke client.
-    return forwardedFor.split(",")[0]!.trim();
-  }
-
-  return headerList.get("x-real-ip") ?? "unknown";
-}
 
 export async function submitContactForm(
   _: ContactState,

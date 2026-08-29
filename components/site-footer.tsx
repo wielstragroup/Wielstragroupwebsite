@@ -35,6 +35,13 @@ const serviceLabels = [
   "Online zichtbaarheid",
 ];
 
+const legalLinks = [
+  { href: "/privacybeleid", label: "Privacybeleid" },
+  { href: "/cookiebeleid", label: "Cookiebeleid" },
+  { href: "/algemene-voorwaarden", label: "Algemene voorwaarden" },
+  { href: "/disclaimer", label: "Disclaimer" },
+];
+
 export async function SiteFooter() {
   const settings = await getSiteSettings();
   const socials = getVisibleSocials(settings);
@@ -200,14 +207,20 @@ export async function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-slate-800/60 pt-8 text-center text-xs text-slate-400 sm:flex sm:items-center sm:justify-between sm:text-left">
+        <div className="mt-12 flex flex-col gap-4 border-t border-slate-800/60 pt-8 text-center text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <p>
             © {new Date().getFullYear()} {settings.companyName}.{" "}
             {settings.copyrightText || "Alle rechten voorbehouden."}
           </p>
-          <p className="mt-2 text-slate-400 sm:mt-0">
-            Websites voor lokale ondernemers
-          </p>
+          <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:justify-end">
+            {legalLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="transition hover:text-white">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>

@@ -8,6 +8,8 @@ const navItems = [
   { href: "/admin/home", label: "Homepagina" },
   { href: "/admin/media", label: "Mediabibliotheek" },
   { href: "/admin/projects", label: "Portfolio" },
+  { href: "/admin/contact", label: "Contactaanvragen" },
+  { href: "/admin/analytics", label: "Analytics" },
   { href: "/admin/projects/new", label: "Nieuw project" },
   { href: "/admin/settings", label: "Website-instellingen" },
 ];

@@ -37,7 +37,6 @@ const isDark = theme === "dark";
           <span>Bedrijfsnaam <span className="text-slate-500">(optioneel)</span></span>
           <input
             name="companyName"
-            required
             placeholder="Jouw bedrijfsnaam"
             className={`rounded-xl border px-4 py-3 text-sm transition focus:outline-none focus:ring-2 ${
               isDark
