@@ -40,6 +40,12 @@ export const projectSchema = z.object({
   published: z.boolean(),
 });
 
+export const legalPageSchema = z.object({
+  title: z.string().trim().min(2).max(150),
+  intro: z.string().trim().max(600),
+  content: z.string().trim().min(10).max(20000),
+});
+
 export const contactSchema = z.object({
   name: z.string().trim().min(2).max(120),
   companyName: z.string().trim().max(120),

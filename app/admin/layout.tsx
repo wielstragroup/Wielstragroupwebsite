@@ -10,6 +10,7 @@ const navItems = [
   { href: "/admin/projects", label: "Portfolio" },
   { href: "/admin/contact", label: "Contactaanvragen" },
   { href: "/admin/analytics", label: "Analytics" },
+  { href: "/admin/legal", label: "Juridische pagina's" },
   { href: "/admin/projects/new", label: "Nieuw project" },
   { href: "/admin/settings", label: "Website-instellingen" },
 ];

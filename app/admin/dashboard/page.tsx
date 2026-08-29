@@ -35,6 +35,11 @@ const shortcuts = [
     title: "Analytics",
     description: "Bezoekstatistieken van de website bekijken.",
   },
+  {
+    href: "/admin/legal",
+    title: "Juridische pagina's",
+    description: "Privacybeleid, cookiebeleid, voorwaarden en disclaimer bewerken.",
+  },
 ];
 
 export default async function AdminDashboardPage() {
