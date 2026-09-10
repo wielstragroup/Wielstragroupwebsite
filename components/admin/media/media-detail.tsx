@@ -10,6 +10,7 @@ import {
   restoreMediaAction,
   updateMediaAction,
 } from "@/app/admin/media/actions";
+import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
 import type { Media, MediaUsageEntry } from "@/lib/media/data";
 
 type MediaDetailProps = {
@@ -217,13 +218,13 @@ export function MediaDetail({ media, usage }: MediaDetailProps) {
 
               <form action={purgeMediaAction} className="mt-2">
                 <input type="hidden" name="id" value={media.id} />
-                <button
-                  type="submit"
+                <ConfirmSubmitButton
+                  confirmMessage={`"${media.fileName}" definitief wissen? Dit verwijdert het bestand ook uit de opslag en kan niet ongedaan worden gemaakt.`}
                   disabled={inUse}
                   className="w-full rounded-xl border border-red-300 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Definitief wissen
-                </button>
+                </ConfirmSubmitButton>
               </form>
 
               {inUse ? (

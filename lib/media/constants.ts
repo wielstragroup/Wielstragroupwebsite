@@ -12,6 +12,19 @@ export const MEDIA_BUCKET = "media";
 /** 10 MB. Gelijk aan `file_size_limit` op de bucket en de check op `size_bytes`. */
 export const MEDIA_MAX_SIZE_BYTES = 10 * 1024 * 1024;
 
+/**
+ * Projectafbeeldingen (hoofd + extra) delen de bucket en tabel van de
+ * mediabibliotheek, maar houden een strakkere limiet aan dan het algemene
+ * maximum hierboven.
+ */
+export const PROJECT_IMAGE_MAX_SIZE_BYTES = 5 * 1024 * 1024;
+
+/** Zelfde vorm als de check-constraint `media_storage_path_format` in de database. */
+export const MEDIA_STORAGE_PATH_PATTERN = /^[0-9]{4}\/[0-9]{2}\/[0-9a-f-]{36}\.(jpg|png|webp|avif)$/;
+
+/** Hexadecimale SHA-256-checksum: 32 bytes. */
+export const MEDIA_CHECKSUM_PATTERN = /^[0-9a-f]{64}$/;
+
 export const ALLOWED_MEDIA_MIME_TYPES = [
   "image/jpeg",
   "image/png",

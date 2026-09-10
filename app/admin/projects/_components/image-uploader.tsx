@@ -2,12 +2,16 @@
 
 import { useState, useRef, ChangeEvent, DragEvent } from "react";
 import Image from "next/image";
-import { uploadSingleImageServerAction } from "@/app/admin/projects/actions";
+
+import { PROJECT_IMAGE_MAX_SIZE_BYTES } from "@/lib/media/constants";
+import { uploadImageDirect } from "@/lib/media/upload-client";
 
 type ImageUploaderProps = {
   defaultValue?: string;
   name?: string;
 };
+
+const MAX_MB = Math.round(PROJECT_IMAGE_MAX_SIZE_BYTES / (1024 * 1024));
 
 export function ImageUploader({ defaultValue = "", name = "image" }: ImageUploaderProps) {
   const [imageUrl, setImageUrl] = useState<string>(defaultValue);
@@ -29,15 +33,12 @@ export function ImageUploader({ defaultValue = "", name = "image" }: ImageUpload
     setError(null);
     setUploading(true);
 
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const res = await uploadSingleImageServerAction(formData);
+    const res = await uploadImageDirect(file, { maxSizeBytes: PROJECT_IMAGE_MAX_SIZE_BYTES });
 
     setUploading(false);
 
-    if (res.success && res.url) {
-      setImageUrl(res.url);
+    if (res.ok) {
+      setImageUrl(res.media.url);
     } else {
       setError(res.error || "Upload mislukt");
     }
@@ -137,7 +138,9 @@ export function ImageUploader({ defaultValue = "", name = "image" }: ImageUpload
               </div>
               <div>
                 <p className="text-sm font-semibold text-slate-900">Afbeelding uploaden</p>
-                <p className="mt-1 text-xs text-slate-500">Sleep een bestand hierheen of klik om te kiezen (JPG, PNG, WebP, AVIF — max 5MB)</p>
+                <p className="mt-1 text-xs text-slate-500">
+                  Sleep een bestand hierheen of klik om te kiezen (JPG, PNG, WebP, AVIF — max {MAX_MB}MB)
+                </p>
               </div>
             </div>
           )}

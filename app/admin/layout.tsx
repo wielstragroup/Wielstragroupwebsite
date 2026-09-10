@@ -5,14 +5,13 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 const navItems = [
   { href: "/admin/dashboard", label: "Dashboard" },
-  { href: "/admin/home", label: "Homepagina" },
+  { href: "/admin/projects", label: "Projecten" },
   { href: "/admin/media", label: "Mediabibliotheek" },
-  { href: "/admin/projects", label: "Portfolio" },
+  { href: "/admin/home", label: "Homepagina" },
   { href: "/admin/contact", label: "Contactaanvragen" },
   { href: "/admin/analytics", label: "Analytics" },
   { href: "/admin/legal", label: "Juridische pagina's" },
-  { href: "/admin/projects/new", label: "Nieuw project" },
-  { href: "/admin/settings", label: "Website-instellingen" },
+  { href: "/admin/settings", label: "Instellingen" },
 ];
 
 export default async function AdminLayout({ children }: LayoutProps<"/admin">) {

@@ -5,10 +5,7 @@ import { redirect, unstable_rethrow } from "next/navigation";
 
 import { requireAdmin } from "@/lib/auth";
 import { projectInputToDb } from "@/lib/projects";
-import { buildStoragePath, validateImageUpload } from "@/lib/uploads";
 import { projectSchema } from "@/lib/validation";
-
-const BUCKET = "project-images";
 
 function normalizeImageList(raw: string) {
   return raw
@@ -126,71 +123,4 @@ export async function toggleProjectAction(formData: FormData) {
 
   revalidatePublicPaths();
   redirect("/admin/projects?success=Project+bijgewerkt");
-}
-
-export async function uploadSingleImageServerAction(
-  formData: FormData,
-): Promise<{ success: boolean; url?: string; error?: string }> {
-  try {
-    const { supabase } = await requireAdmin();
-    const file = formData.get("file");
-
-    if (!(file instanceof File)) {
-      return { success: false, error: "Selecteer een geldig bestand." };
-    }
-
-    const validation = validateImageUpload(file);
-
-    if (!validation.ok) {
-      return { success: false, error: validation.error };
-    }
-
-    const path = buildStoragePath(file.name, validation.extension);
-
-    const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
-      cacheControl: "3600",
-      upsert: false,
-      contentType: file.type,
-    });
-
-    if (error) {
-      return { success: false, error: error.message };
-    }
-
-    const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-    return { success: true, url: data.publicUrl };
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Upload mislukt.";
-    return { success: false, error: message };
-  }
-}
-
-export async function uploadImageAction(formData: FormData) {
-  const { supabase } = await requireAdmin();
-  const file = formData.get("image");
-
-  if (!(file instanceof File)) {
-    redirect("/admin/projects?error=Selecteer+een+bestand");
-  }
-
-  const validation = validateImageUpload(file);
-
-  if (!validation.ok) {
-    redirect(`/admin/projects?error=${encodeURIComponent(validation.error)}`);
-  }
-
-  const path = buildStoragePath(file.name, validation.extension);
-
-  const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
-    cacheControl: "3600",
-    upsert: false,
-    contentType: file.type,
-  });
-
-  if (error) {
-    redirect(`/admin/projects?error=${encodeURIComponent(error.message)}`);
-  }
-
-  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-  redirect(`/admin/projects?uploaded=${encodeURIComponent(data.publicUrl)}`);
 }

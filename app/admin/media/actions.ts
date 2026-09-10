@@ -1,12 +1,18 @@
 "use server";
 
-import { createHash } from "node:crypto";
-
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { requireAdmin } from "@/lib/auth";
-import { ALLOWED_MEDIA_MIME_TYPES, MEDIA_BUCKET } from "@/lib/media/constants";
+import {
+  ALLOWED_MEDIA_MIME_TYPES,
+  MEDIA_BUCKET,
+  MEDIA_CHECKSUM_PATTERN,
+  MEDIA_ERROR_MESSAGES,
+  MEDIA_MAX_SIZE_BYTES,
+  MEDIA_STORAGE_PATH_PATTERN,
+  MIME_TO_EXTENSION,
+} from "@/lib/media/constants";
 import {
   createMedia,
   findMediaByChecksum,
@@ -19,7 +25,7 @@ import {
   updateMedia,
   type Media,
 } from "@/lib/media/data";
-import { buildMediaStoragePath, validateMediaUpload } from "@/lib/media/validate";
+import { isAllowedMediaMimeType, sanitizeFileName } from "@/lib/media/validate";
 
 export type UploadMediaResult =
   | { ok: true; media: Media; duplicate: boolean }
@@ -64,7 +70,7 @@ function isRateLimited(key: string): boolean {
   return false;
 }
 
-function parseDimension(value: FormDataEntryValue | null): number | null {
+function parseDimension(value: unknown): number | null {
   const parsed = Number.parseInt(String(value ?? ""), 10);
 
   return Number.isFinite(parsed) && parsed > 0 && parsed <= 100000 ? parsed : null;
@@ -92,59 +98,93 @@ function revalidateMedia(id?: string) {
   }
 }
 
-export async function uploadMediaAction(formData: FormData): Promise<UploadMediaResult> {
+/**
+ * Stap 1 van de directe-uploadflow: bestaat dit bestand al?
+ *
+ * Wordt aangeroepen vóórdat de browser iets naar Supabase Storage stuurt, zodat
+ * een bekend bestand nooit een tweede keer geüpload wordt. De checksum wordt
+ * altijd client-side berekend (Web Crypto); hier komt nooit een bestand binnen.
+ */
+export async function checkDuplicateMediaAction(checksum: string): Promise<Media | null> {
+  await requireAdmin();
+
+  if (typeof checksum !== "string" || !MEDIA_CHECKSUM_PATTERN.test(checksum)) {
+    return null;
+  }
+
+  return findMediaByChecksum(checksum);
+}
+
+export type AttachMediaInput = {
+  storagePath: string;
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+  width?: number | null;
+  height?: number | null;
+  checksum: string;
+};
+
+/**
+ * Stap 2 van de directe-uploadflow: het bestand staat al in Supabase Storage —
+ * rechtstreeks vanuit de browser geüpload, met de sessie van de ingelogde
+ * beheerder (RLS dwingt `is_admin()` af, geen service-role key nodig). Hier
+ * komt uitsluitend metadata binnen, nooit bestandsbytes, dus dit endpoint kan
+ * nooit tegen de Server Action-bodylimiet aanlopen.
+ *
+ * De waarden worden hier opnieuw gevalideerd: de client is niet te vertrouwen,
+ * ook al heeft die de upload al voor de deur gedaan.
+ */
+export async function attachMediaAction(input: AttachMediaInput): Promise<UploadMediaResult> {
   const { supabase, user } = await requireAdmin();
 
   if (isRateLimited(user.id)) {
     return { ok: false, error: "Te veel uploads achter elkaar. Probeer het over een paar minuten opnieuw." };
   }
 
-  const file = formData.get("file");
+  const storagePath = String(input?.storagePath ?? "");
+  const mimeType = String(input?.mimeType ?? "").toLowerCase();
+  const sizeBytes = Number(input?.sizeBytes);
+  const checksum = String(input?.checksum ?? "");
 
-  if (!(file instanceof File)) {
-    return { ok: false, error: "Geen bestand ontvangen." };
+  if (!MEDIA_STORAGE_PATH_PATTERN.test(storagePath)) {
+    return { ok: false, error: "Ongeldig opslagpad." };
   }
 
-  const bytes = new Uint8Array(await file.arrayBuffer());
-
-  const validation = validateMediaUpload({
-    bytes,
-    reportedMimeType: file.type,
-    fileName: file.name,
-  });
-
-  if (!validation.ok) {
-    return { ok: false, error: validation.message };
+  if (!isAllowedMediaMimeType(mimeType)) {
+    return { ok: false, error: MEDIA_ERROR_MESSAGES.unknownType };
   }
 
-  // Server-side berekend, niet aangeleverd door de client.
-  const checksum = createHash("sha256").update(bytes).digest("hex");
+  const extension = MIME_TO_EXTENSION[mimeType];
+
+  if (!storagePath.endsWith(`.${extension}`)) {
+    return { ok: false, error: MEDIA_ERROR_MESSAGES.mismatch };
+  }
+
+  if (!Number.isFinite(sizeBytes) || sizeBytes <= 0 || sizeBytes > MEDIA_MAX_SIZE_BYTES) {
+    return { ok: false, error: MEDIA_ERROR_MESSAGES.tooLarge };
+  }
+
+  if (!MEDIA_CHECKSUM_PATTERN.test(checksum)) {
+    return { ok: false, error: "Ongeldige bestandshash." };
+  }
 
   const existing = await findMediaByChecksum(checksum);
   if (existing) {
+    // Dubbele indiening (bv. twee tabbladen tegelijk): geen tweede rij, wel het net geüploade duplicaat opruimen.
+    await supabase.storage.from(MEDIA_BUCKET).remove([storagePath]);
+
     return { ok: true, media: existing, duplicate: true };
-  }
-
-  const storagePath = buildMediaStoragePath(validation.extension);
-
-  const { error: uploadError } = await supabase.storage.from(MEDIA_BUCKET).upload(storagePath, bytes, {
-    contentType: validation.mimeType,
-    cacheControl: "31536000",
-    upsert: false,
-  });
-
-  if (uploadError) {
-    return { ok: false, error: `Upload mislukt: ${uploadError.message}` };
   }
 
   const created = await createMedia({
     storagePath,
-    fileName: validation.fileName,
-    mimeType: validation.mimeType,
-    extension: validation.extension,
-    sizeBytes: validation.sizeBytes,
-    width: parseDimension(formData.get("width")),
-    height: parseDimension(formData.get("height")),
+    fileName: sanitizeFileName(input?.fileName),
+    mimeType,
+    extension,
+    sizeBytes,
+    width: parseDimension(input?.width),
+    height: parseDimension(input?.height),
     checksum,
     uploadedBy: user.id,
   });
@@ -157,6 +197,7 @@ export async function uploadMediaAction(formData: FormData): Promise<UploadMedia
   }
 
   revalidatePath("/admin/media");
+  revalidatePath("/admin/projects");
 
   return { ok: true, media: created.media, duplicate: false };
 }

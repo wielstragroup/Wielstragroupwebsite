@@ -2,12 +2,16 @@
 
 import { useState, useRef, ChangeEvent, DragEvent } from "react";
 import Image from "next/image";
-import { uploadSingleImageServerAction } from "@/app/admin/projects/actions";
+
+import { PROJECT_IMAGE_MAX_SIZE_BYTES } from "@/lib/media/constants";
+import { uploadImageDirect } from "@/lib/media/upload-client";
 
 type MultiImageUploaderProps = {
   defaultValue?: string[];
   name?: string;
 };
+
+const MAX_MB = Math.round(PROJECT_IMAGE_MAX_SIZE_BYTES / (1024 * 1024));
 
 export function MultiImageUploader({ defaultValue = [], name = "additionalImages" }: MultiImageUploaderProps) {
   const [imageUrls, setImageUrls] = useState<string[]>(defaultValue);
@@ -33,13 +37,10 @@ export function MultiImageUploader({ defaultValue = [], name = "additionalImages
     let hasError = false;
 
     for (const file of files) {
-      const formData = new FormData();
-      formData.append("file", file);
+      const res = await uploadImageDirect(file, { maxSizeBytes: PROJECT_IMAGE_MAX_SIZE_BYTES });
 
-      const res = await uploadSingleImageServerAction(formData);
-
-      if (res.success && res.url) {
-        newUrls.push(res.url);
+      if (res.ok) {
+        newUrls.push(res.media.url);
       } else {
         setError(res.error || `Upload van ${file.name} mislukt`);
         hasError = true;
@@ -59,6 +60,20 @@ export function MultiImageUploader({ defaultValue = [], name = "additionalImages
 
   const handleRemoveImage = (indexToRemove: number) => {
     setImageUrls((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+  };
+
+  const handleMoveImage = (index: number, direction: -1 | 1) => {
+    setImageUrls((prev) => {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= prev.length) {
+        return prev;
+      }
+
+      const next = [...prev];
+      [next[index], next[targetIndex]] = [next[targetIndex], next[index]];
+
+      return next;
+    });
   };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -110,6 +125,26 @@ export function MultiImageUploader({ defaultValue = [], name = "additionalImages
               >
                 ✕
               </button>
+              <div className="absolute bottom-1.5 left-1.5 flex gap-1">
+                <button
+                  type="button"
+                  onClick={() => handleMoveImage(idx, -1)}
+                  disabled={idx === 0}
+                  title="Naar links verplaatsen"
+                  className="flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-md transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleMoveImage(idx, 1)}
+                  disabled={idx === imageUrls.length - 1}
+                  title="Naar rechts verplaatsen"
+                  className="flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-md transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  →
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -138,7 +173,7 @@ export function MultiImageUploader({ defaultValue = [], name = "additionalImages
         ) : (
           <div className="space-y-1">
             <p className="text-sm font-semibold text-slate-900">+ Extra afbeeldingen toevoegen</p>
-            <p className="text-xs text-slate-500">Selecteer meerdere bestanden vanaf je laptop (JPG, PNG, WebP)</p>
+            <p className="text-xs text-slate-500">Selecteer meerdere bestanden (JPG, PNG, WebP, AVIF — max {MAX_MB}MB per bestand)</p>
           </div>
         )}
       </div>
@@ -153,6 +188,10 @@ export function MultiImageUploader({ defaultValue = [], name = "additionalImages
       />
 
       {error ? <p className="text-xs font-semibold text-red-600">{error}</p> : null}
+
+      {imageUrls.length > 1 ? (
+        <p className="text-xs text-slate-500">Gebruik de pijltjes op een afbeelding om de volgorde te wijzigen.</p>
+      ) : null}
 
       {/* Manual URL input fallback toggle */}
       <div className="pt-1">

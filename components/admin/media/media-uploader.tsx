@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState, type ChangeEvent, type DragEvent } from "react";
 
-import { uploadMediaAction } from "@/app/admin/media/actions";
 import { ALLOWED_MEDIA_MIME_TYPES, MEDIA_MAX_SIZE_BYTES } from "@/lib/media/constants";
+import { uploadImageDirect } from "@/lib/media/upload-client";
 
 type UploadStatus = "pending" | "uploading" | "done" | "duplicate" | "error";
 
@@ -17,26 +17,6 @@ type UploadEntry = {
 
 const ACCEPT = ALLOWED_MEDIA_MIME_TYPES.join(",");
 const MAX_MB = Math.round(MEDIA_MAX_SIZE_BYTES / (1024 * 1024));
-
-/**
- * Afmetingen client-side bepalen. Puur metadata, niet security-kritisch:
- * de server valideert het bestand zelf op bytes.
- */
-async function readDimensions(file: File): Promise<{ width: number; height: number } | null> {
-  if (typeof createImageBitmap !== "function") {
-    return null;
-  }
-
-  try {
-    const bitmap = await createImageBitmap(file);
-    const dimensions = { width: bitmap.width, height: bitmap.height };
-    bitmap.close();
-
-    return dimensions;
-  } catch {
-    return null;
-  }
-}
 
 const STATUS_STYLES: Record<UploadStatus, string> = {
   pending: "text-slate-500",
@@ -87,17 +67,8 @@ export function MediaUploader() {
 
       updateEntry(entry.id, { status: "uploading" });
 
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const dimensions = await readDimensions(file);
-      if (dimensions) {
-        formData.append("width", String(dimensions.width));
-        formData.append("height", String(dimensions.height));
-      }
-
       try {
-        const result = await uploadMediaAction(formData);
+        const result = await uploadImageDirect(file);
 
         if (result.ok) {
           updateEntry(entry.id, {

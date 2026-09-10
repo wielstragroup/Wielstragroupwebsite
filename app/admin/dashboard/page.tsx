@@ -22,8 +22,13 @@ const shortcuts = [
   },
   {
     href: "/admin/projects",
-    title: "Portfolio",
+    title: "Projecten",
     description: "Projecten beheren en publiceren.",
+  },
+  {
+    href: "/admin/media",
+    title: "Mediabibliotheek",
+    description: "Afbeeldingen bekijken, uploaden en verwijderen.",
   },
   {
     href: "/admin/contact",
@@ -58,7 +63,7 @@ export default async function AdminDashboardPage() {
     supabase.from("projects").select("id", { count: "exact", head: true }).eq("published", false),
     supabase
       .from("projects")
-      .select("id,title,created_at")
+      .select("id,title,published,created_at")
       .order("created_at", { ascending: false })
       .limit(5),
     supabase.from("contact_messages").select("id", { count: "exact", head: true }),
@@ -69,9 +74,17 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
-        Dashboard
-      </h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
+          Dashboard
+        </h1>
+        <Link
+          href="/admin/projects/new"
+          className="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
+        >
+          + Nieuw project
+        </Link>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -126,19 +139,33 @@ export default async function AdminDashboardPage() {
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">
-          Nieuwste projecten
-        </h2>
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-lg font-semibold text-slate-900">
+            Nieuwste projecten
+          </h2>
+          <Link href="/admin/projects" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+            Alle projecten →
+          </Link>
+        </div>
         {(latest ?? []).length === 0 ? (
           <p className="mt-3 text-sm text-slate-500">Nog geen projecten.</p>
         ) : (
-          <ul className="mt-4 space-y-3 text-sm text-slate-700">
+          <ul className="mt-4 space-y-2 text-sm">
             {(latest ?? []).map((project) => (
-              <li
-                key={project.id}
-                className="rounded-lg border border-slate-200 px-3 py-2"
-              >
-                {project.title}
+              <li key={project.id}>
+                <Link
+                  href={`/admin/projects/${project.id}/edit`}
+                  className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 px-3 py-2.5 transition hover:border-slate-300 hover:bg-slate-50"
+                >
+                  <span className="truncate font-medium text-slate-800">{project.title}</span>
+                  <span
+                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      project.published ? "bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-700"
+                    }`}
+                  >
+                    {project.published ? "Gepubliceerd" : "Concept"}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>

@@ -43,7 +43,7 @@ export function TextField({
   defaultValue?: string;
   placeholder?: string;
   hint?: string;
-  type?: "text" | "email" | "url" | "tel";
+  type?: "text" | "email" | "url" | "tel" | "date";
   required?: boolean;
   full?: boolean;
   maxLength?: number;

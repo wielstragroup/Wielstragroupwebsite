@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { ProjectForm } from "@/app/admin/projects/_components/project-form";
 import { updateProjectAction } from "@/app/admin/projects/actions";
+import { StatusMessage } from "@/components/admin/form-fields";
 import { getProjectById } from "@/lib/projects";
 import { requireAdmin } from "@/lib/auth";
 
@@ -28,9 +29,12 @@ export default async function EditProjectPage({
   }
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-3xl font-semibold tracking-tight text-slate-950">Project bewerken</h1>
-      {error ? <p className="rounded-xl bg-red-100 px-4 py-2 text-sm text-red-900">{error}</p> : null}
+    <div className="space-y-5">
+      <div>
+        <h1 className="text-3xl font-semibold tracking-tight text-slate-950">Project bewerken</h1>
+        <p className="mt-1 text-sm text-slate-600">{project.title}</p>
+      </div>
+      <StatusMessage error={error} />
       <ProjectForm action={updateProjectAction} project={project} submitLabel="Wijzigingen opslaan" />
     </div>
   );
