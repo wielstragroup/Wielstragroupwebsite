@@ -11,57 +11,57 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Websites & webshops",
   description:
-    "Professioneel webdesign, responsive ontwikkeling, snelheid, SEO, CMS-koppelingen en webshops. Websites van Wielstra Group die bezoekers omzetten in aanvragen.",
+    "Een eigen ontwerp, goed op mobiel, snel, vindbaar in Google en zelf te beheren. Joël Wielstra bouwt websites en webshops die aanvragen opleveren.",
   path: "/websites",
 });
 
 const features = [
   {
-    title: "Professioneel webdesign",
-    text: "Een eigen ontwerp dat past bij je merk en je boodschap helder brengt. Geen thema dat ook bij honderd anderen draait.",
+    title: "Een eigen ontwerp",
+    text: "Een ontwerp dat past bij je bedrijf en duidelijk maakt wat je doet. Geen sjabloon dat ook bij honderd andere bedrijven draait.",
   },
   {
-    title: "Responsive ontwikkeling",
-    text: "Ontworpen voor elk scherm, van telefoon tot breed beeldscherm. Mobiel is geen bijzaak, het is vaak de eerste indruk.",
+    title: "Goed op elk scherm",
+    text: "Van telefoon tot breed beeldscherm. Veel bezoekers zien je website voor het eerst op hun telefoon, dus daar moet het kloppen.",
   },
   {
-    title: "Snelheid en performance",
-    text: "Geoptimaliseerde afbeeldingen, weinig overbodige scripts en moderne hosting. Snel laden is beter voor bezoekers én voor Google.",
+    title: "Snel",
+    text: "Lichte afbeeldingen, geen overbodige scripts en goede hosting. Een snelle website is prettiger voor bezoekers, en Google houdt rekening met laadsnelheid.",
   },
   {
-    title: "SEO als fundament",
-    text: "Een logische structuur, goede metadata, structured data en een sitemap. Vindbaarheid wordt vanaf het begin meegebouwd.",
+    title: "Vindbaar in Google",
+    text: "Een logische opbouw, goede paginatitels en omschrijvingen en de technische basis die zoekmachines nodig hebben. Daar houd ik vanaf de eerste dag rekening mee.",
   },
   {
-    title: "CMS-integraties",
-    text: "Zelf teksten, projecten en afbeeldingen beheren via een overzichtelijk dashboard, zonder dat je iets van code hoeft te weten.",
+    title: "Zelf aan te passen",
+    text: "Teksten, projecten en afbeeldingen beheer je zelf via een overzichtelijk beheerscherm. Daar hoef je niets van code voor te weten.",
   },
   {
     title: "Webshops",
-    text: "Van een compacte bestelmodule tot een volledige webshop, gekoppeld aan je voorraad, betaalprovider en administratie.",
+    text: "Van een eenvoudige bestelmodule tot een complete webshop, gekoppeld aan je voorraad, betaalprovider en boekhouding.",
   },
   {
-    title: "Onderhoud en beheer",
-    text: "Updates, beveiliging, back-ups en kleine aanpassingen. Je website blijft veilig en actueel, ook na de lancering.",
+    title: "Onderhoud",
+    text: "Updates, beveiliging, back-ups en kleine aanpassingen. Zo blijft je website veilig en actueel, ook lang na de oplevering.",
   },
 ];
 
 const faq = [
   {
     q: "Kan ik de website zelf bijwerken?",
-    a: "Ja. We koppelen een CMS waarmee je zelf teksten, afbeeldingen en bijvoorbeeld projecten of producten beheert. Welke onderdelen je zelf wilt beheren, bepalen we samen.",
+    a: "Ja. Je krijgt een beheeromgeving waarin je zelf teksten, afbeeldingen en bijvoorbeeld projecten of producten aanpast. Welke onderdelen je zelf wilt beheren, spreken we vooraf af.",
   },
   {
-    q: "Kunnen jullie mijn bestaande website verbeteren in plaats van vervangen?",
-    a: "Dat kan. We kijken eerst naar de huidige site: soms levert gericht verbeteren meer op dan opnieuw beginnen. We adviseren je daar eerlijk over.",
+    q: "Kun je ook mijn bestaande website verbeteren in plaats van vervangen?",
+    a: "Dat kan. Ik kijk eerst naar je huidige site. Soms levert gericht verbeteren meer op dan opnieuw beginnen, en dan zeg ik dat ook.",
   },
   {
-    q: "Regelen jullie ook hosting en het domein?",
-    a: "We adviseren over hosting en zetten de website live. Hoe het beheer daarna is ingericht, spreken we samen af.",
+    q: "Regel je ook de hosting en het domein?",
+    a: "Ik adviseer je over hosting en zet de website live. Hoe het beheer daarna geregeld wordt, spreken we samen af.",
   },
   {
     q: "Kan de website koppelen met andere systemen?",
-    a: "Juist daarin onderscheiden we ons. Een aanvraag op je website kan direct in je CRM of planning terechtkomen. Zo wordt je website onderdeel van je bedrijfsproces.",
+    a: "Ja. Een aanvraag via je website kan bijvoorbeeld direct in je klantbeheer of planning terechtkomen, zodat niemand hem hoeft over te typen.",
   },
 ];
 
@@ -75,7 +75,7 @@ export default function WebsitesPage() {
             Een website die meer doet dan er goed uitzien<span className="text-signal">.</span>
           </>
         }
-        intro="Je website is vaak het eerste contact met een nieuwe klant. Wij bouwen snelle, vindbare websites en webshops die vertrouwen wekken en bezoekers naar een volgende stap leiden."
+        intro="Je website is vaak het eerste contact met een nieuwe klant. Ik bouw snelle, goed vindbare websites en webshops die vertrouwen geven en het bezoekers makkelijk maken om contact op te nemen."
       >
         <ButtonLink href="/contact?type=offerte&dienst=web">Vraag een offerte aan</ButtonLink>
         <ButtonLink href="/portfolio" variant="secondary">
@@ -90,8 +90,8 @@ export default function WebsitesPage() {
             <SectionTitle
               index="01"
               eyebrow="Op ieder scherm"
-              title="Ontworpen voor hoe mensen echt browsen."
-              intro="Een groot deel van je bezoekers komt via de telefoon. We ontwerpen daarom niet eerst voor desktop om mobiel er later bij te passen, maar denken vanaf het begin aan elk schermformaat."
+              title="Gemaakt voor de telefoon én het grote scherm."
+              intro="Veel bezoekers komen via hun telefoon. Daarom ontwerp ik niet eerst voor de computer om de mobiele versie er later bij te passen. Ik houd vanaf het begin rekening met elk schermformaat."
             />
           </Reveal>
           <div className="lg:col-span-7">
@@ -134,13 +134,13 @@ export default function WebsitesPage() {
                 index="03"
                 eyebrow="Meer dan een website"
                 title="Je website als begin van je bedrijfsproces."
-                intro="Omdat we ook software en koppelingen bouwen, kan je website meer: aanvragen die direct in je CRM landen, een klantportaal achter een login, of een webshop die je voorraad automatisch bijwerkt."
+                intro="Omdat ik ook software en koppelingen bouw, kan je website meer. Denk aan aanvragen die direct in je klantbeheer komen, een klantportaal met eigen inlog of een webshop die je voorraad automatisch bijwerkt."
               />
             </div>
             <div className="flex flex-col gap-4 lg:col-span-5">
               {[
                 { href: "/maatwerksoftware", label: "Maatwerksoftware" },
-                { href: "/diensten#automation", label: "Automation & AI" },
+                { href: "/diensten#automation", label: "Automatisering & AI" },
                 { href: "/diensten#data", label: "Koppelingen en API's" },
               ].map((link) => (
                 <Link
@@ -170,7 +170,7 @@ export default function WebsitesPage() {
 
       <CtaBand
         title="Klaar voor een website die werkt?"
-        text="Vertel ons over je bedrijf en je doelen. We denken mee over opbouw, inhoud en techniek, en sturen je een helder voorstel."
+        text="Vertel me over je bedrijf en wat je met je website wilt bereiken. Ik denk mee over opbouw, inhoud en techniek, en stuur je daarna een duidelijk voorstel."
       />
     </>
   );

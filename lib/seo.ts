@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const DEFAULT_TITLE = "Wielstra Group | Maatwerksoftware, automatisering en websites";
 export const DEFAULT_DESCRIPTION =
-  "Wielstra Group ontwikkelt maatwerksoftware, bedrijfsautomatisering, AI-integraties en websites voor ondernemers die verder willen dan standaard.";
+  "Joël Wielstra bouwt met Wielstra Group maatwerksoftware, automatiseringen, AI-koppelingen en websites voor ondernemers. Rechtstreeks contact met de ontwikkelaar, van eerste gesprek tot onderhoud.";
 
 /** Paginametadata met canonical en Open Graph in één keer. */
 export function pageMetadata({

@@ -51,9 +51,9 @@ export function CookieBanner() {
     >
       <div className="flex flex-col items-start gap-3">
         <p className="text-sm leading-relaxed text-white/75">
-          Deze website plaatst geen trackingcookies. We gebruiken alleen technisch
-          noodzakelijke cookies (bijvoorbeeld voor het inloggen in het beheerderspaneel)
-          en een privacyvriendelijke, cookieloze bezoekstatistiek. Lees meer in ons{" "}
+          Deze website plaatst geen trackingcookies. Ik gebruik alleen technisch
+          noodzakelijke cookies (bijvoorbeeld om in te loggen in het beheerscherm)
+          en een privacyvriendelijke bezoekstatistiek zonder cookies. Lees meer in het{" "}
           <Link href="/cookiebeleid" className="font-medium text-white underline underline-offset-2">
             cookiebeleid
           </Link>{" "}

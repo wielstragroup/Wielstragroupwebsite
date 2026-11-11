@@ -16,12 +16,12 @@ const NODE_W = 152;
 const NODE_H = 46;
 
 const nodes = [
-  { id: "web", label: "Website", x: 88, y: 96, text: "Je digitale voordeur, direct gekoppeld aan de rest van je bedrijf." },
+  { id: "web", label: "Website", x: 88, y: 96, text: "Je website, direct gekoppeld aan de rest van je bedrijf." },
   { id: "plan", label: "Planning", x: 88, y: 280, text: "Roosters, afspraken en capaciteit in één overzicht, zonder Excel." },
   { id: "stock", label: "Voorraad", x: 88, y: 464, text: "Actueel inzicht in voorraad, orders en leveringen." },
   { id: "crm", label: "CRM", x: 512, y: 96, text: "Klanten, contactmomenten en offertes op één plek." },
   { id: "ai", label: "AI", x: 512, y: 280, text: "Documenten, e-mails en gegevens automatisch verwerkt." },
-  { id: "dash", label: "Dashboard", x: 512, y: 464, text: "De cijfers die ertoe doen, altijd actueel." },
+  { id: "dash", label: "Dashboard", x: 512, y: 464, text: "De cijfers die je nodig hebt, altijd actueel." },
 ] as const;
 
 const HUB = { x: 300, y: 280, w: 176, h: 72 };

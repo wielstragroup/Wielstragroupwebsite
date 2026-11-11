@@ -4,6 +4,7 @@
  * een rich-text-editor of markdown-library nodig te hebben.
  *
  * Ondersteund:
+ *   # Kop (wordt als kop 2 getoond)
  *   ## Kop 2
  *   ### Kop 3
  *   - Lijstitem
@@ -92,6 +93,15 @@ export function parseLegalContent(raw: string): LegalBlock[] {
       flushParagraph();
       flushList();
       blocks.push({ type: "h2", inline: parseInline(line.slice(3)) });
+      continue;
+    }
+
+    // "# Kop" wordt als h2 getoond: de pagina heeft al een eigen h1 (de titel),
+    // maar zo verschijnt er nooit een los "#"-teken in de tekst.
+    if (line.startsWith("# ")) {
+      flushParagraph();
+      flushList();
+      blocks.push({ type: "h2", inline: parseInline(line.slice(2)) });
       continue;
     }
 

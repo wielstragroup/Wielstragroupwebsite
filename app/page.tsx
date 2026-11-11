@@ -57,13 +57,13 @@ export default async function Home() {
               </span>
             </h1>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
-              Wielstra Group ontwikkelt software, automatiseringen en websites die passen op hoe jouw bedrijf écht
-              werkt. Van een CRM op maat tot een AI-koppeling die handwerk overneemt.
+              Ik ben Joël Wielstra. Met Wielstra Group bouw ik software, automatiseringen en websites die aansluiten
+              op hoe jouw bedrijf werkt. Van een eigen CRM tot een koppeling die het overtypen overneemt.
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <ButtonLink href="/contact?type=kennismaking">Plan een kennismaking</ButtonLink>
               <ButtonLink href="/diensten" variant="secondary">
-                Bekijk wat we bouwen
+                Bekijk wat ik bouw
               </ButtonLink>
             </div>
           </div>
@@ -106,8 +106,8 @@ export default async function Home() {
               <SectionTitle
                 index="01"
                 eyebrow="Herkenbaar?"
-                title="We beginnen bij wat er vastloopt."
-                intro="Ondernemers komen zelden bij ons voor ‘een app’. Ze komen omdat iets te veel tijd kost, fouten oplevert of groei in de weg zit. Dat is ons startpunt."
+                title="Ik begin bij wat er vastloopt."
+                intro="Weinig ondernemers zoeken ‘een app’. Ze zoeken een oplossing voor iets dat te veel tijd kost, steeds fout gaat of groei in de weg zit. Daar begin ik."
               />
             </Reveal>
             <div className="lg:col-span-7">
@@ -137,14 +137,14 @@ export default async function Home() {
             <Reveal>
               <SectionTitle
                 index="02"
-                eyebrow="Expertise"
-                title="Eén partner voor je hele digitale fundament."
+                eyebrow="Wat ik doe"
+                title="Van website tot bedrijfssoftware, op één adres."
               />
             </Reveal>
             <Reveal delay={100}>
               <p className="max-w-md text-lg leading-relaxed text-muted">
-                Websites, software, data en automatisering hangen steeds meer samen. Wij overzien het geheel, zodat jij
-                niet hoeft te schakelen tussen vijf leveranciers.
+                Je website, je software en je gegevens hangen steeds meer met elkaar samen. Ik houd het overzicht, zodat
+                jij niet met vijf verschillende leveranciers hoeft te schakelen.
               </p>
             </Reveal>
           </div>
@@ -163,10 +163,10 @@ export default async function Home() {
               eyebrow="Maatwerksoftware"
               title={
                 <>
-                  Software die zich aanpast aan jou. <span className="text-signal">Niet andersom.</span>
+                  Software die werkt zoals jij werkt. <span className="text-signal">Niet andersom.</span>
                 </>
               }
-              intro="Standaardpakketten zijn gemaakt voor het gemiddelde bedrijf. Wij bouwen systemen rond jouw processen, je terminologie en je mensen. Gebruiksvriendelijk, veilig en klaar om mee te groeien."
+              intro="Een standaardpakket is gemaakt voor het gemiddelde bedrijf. Ik bouw software rond jouw werkwijze, met de termen die jullie zelf gebruiken. Overzichtelijk voor wie ermee werkt, goed beveiligd en makkelijk uit te breiden."
             />
             <ul className="mt-10 flex flex-wrap gap-2">
               {softwareTypes.map((type) => (
@@ -205,7 +205,7 @@ export default async function Home() {
               index="04"
               eyebrow="Werkwijze"
               title="Van eerste gesprek tot systeem dat draait."
-              intro="Helder, stap voor stap, en met tussentijdse resultaten die je zelf kunt proberen. Zo weet je altijd waar je staat."
+              intro="Stap voor stap, met tussentijdse versies die je zelf kunt uitproberen. Zo weet je altijd waar het project staat."
             />
           </Reveal>
           <ol className="mt-16 grid gap-px overflow-hidden rounded-[1.5rem] border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
@@ -248,8 +248,8 @@ export default async function Home() {
           ) : (
             <Reveal className="rounded-[1.5rem] border border-dashed border-line-strong p-10 text-center sm:p-14">
               <p className="mx-auto max-w-xl text-lg leading-relaxed text-muted">
-                Onze projecten worden hier gepubliceerd zodra ze live staan. Benieuwd wat we voor jouw situatie kunnen
-                bouwen? Dan laten we je graag zien hoe we te werk gaan.
+                Projecten verschijnen hier zodra ze live staan. Benieuwd wat ik voor jouw situatie kan bouwen? In een
+                kennismakingsgesprek laat ik je graag zien hoe ik werk.
               </p>
               <div className="mt-8 flex justify-center">
                 <ButtonLink href="/contact?type=kennismaking">Plan een kennismaking</ButtonLink>
@@ -267,7 +267,7 @@ export default async function Home() {
               index="06"
               eyebrow="Waarom Wielstra Group"
               title="Technisch sterk. Persoonlijk bereikbaar."
-              intro="Groot genoeg om complexe systemen te bouwen, klein genoeg om je bij naam te kennen."
+              intro="Bij Wielstra Group heb je één aanspreekpunt: mij. Ik ken je bedrijf, ik ken je project en ik ben degene die het bouwt."
             />
           </Reveal>
           <div className="grid gap-px overflow-hidden rounded-[1.5rem] border border-line bg-line sm:grid-cols-2 lg:col-span-7">

@@ -11,7 +11,7 @@ import { jsonLd, pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Diensten",
   description:
-    "Web development, maatwerksoftware, automatisering & AI, data & infrastructuur en doorlopende ondersteuning. Bekijk wat Wielstra Group voor je bedrijf kan bouwen.",
+    "Websites, maatwerksoftware, automatisering en AI, koppelingen en onderhoud. Bekijk waar Joël Wielstra van Wielstra Group je bedrijf mee kan helpen.",
   path: "/diensten",
 });
 
@@ -37,8 +37,8 @@ export default function ServicesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(servicesLd)} />
       <PageHero
         eyebrow="Diensten"
-        title="Alles wat je bedrijf digitaal nodig heeft. Gebouwd als één geheel."
-        intro="We werken in vijf disciplines die naadloos op elkaar aansluiten. Je kunt met één vraag beginnen; we kijken altijd naar hoe het past in het grotere geheel."
+        title="Website, software of automatisering. Het hoort bij elkaar."
+        intro="Ik werk op vijf terreinen die in de praktijk vaak met elkaar te maken hebben. Je kunt met één vraag beginnen. Ik kijk daarbij altijd hoe de oplossing past bij de rest van je bedrijf."
       >
         <ButtonLink href="/contact?type=offerte">Vraag een offerte aan</ButtonLink>
         <ButtonLink href="/contact?type=kennismaking" variant="secondary">
@@ -103,7 +103,7 @@ export default function ServicesPage() {
                   <p className="mt-4 text-lg leading-relaxed">{group.outcome}</p>
                 </Reveal>
                 <Reveal delay={160} className="bg-paper p-8 md:col-span-2">
-                  <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-subtle">Wat we ontwikkelen</p>
+                  <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-subtle">Wat ik bouw</p>
                   <CheckList items={group.build} columns className="mt-5" />
                 </Reveal>
               </div>
@@ -120,8 +120,8 @@ export default function ServicesPage() {
                 Staat jouw vraag er niet tussen?
               </h2>
               <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-                Deze lijst is niet uitputtend. Als het een digitaal probleem is binnen je bedrijf, denken we graag mee
-                over een oplossing. En als iets beter met een bestaand pakket kan, zeggen we dat ook.
+                Deze lijst is niet compleet. Loop je binnen je bedrijf tegen een digitaal probleem aan, dan denk ik graag
+                mee. En als een bestaand pakket beter past dan maatwerk, hoor je dat ook van mij.
               </p>
             </div>
             <div className="lg:col-span-4 lg:text-right">

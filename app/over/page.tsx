@@ -8,48 +8,48 @@ import { principles, processSteps } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Over ons",
+  title: "Over Joël Wielstra",
   description:
-    "Wie is Wielstra Group? Een technologiebedrijf dat complexe digitale vraagstukken omzet in praktische oplossingen, met persoonlijk contact en korte lijnen.",
+    "Wielstra Group is het bedrijf van Joël Wielstra. Hij bouwt software, automatiseringen en websites voor ondernemers, en je spreekt hem rechtstreeks.",
   path: "/over",
 });
 
 const commitments = [
-  ["Een helder voorstel", "Je weet vooraf wat we gaan bouwen, wat het kost en wanneer je wat kunt verwachten."],
-  ["Eén vast aanspreekpunt", "Je hoeft je verhaal niet steeds opnieuw te vertellen. We kennen je bedrijf en je project."],
-  ["Tussentijds resultaat", "Je ziet en test werkende versies tijdens het bouwen, niet pas bij de oplevering."],
-  ["Eerlijk advies", "Als een bestaand pakket of een kleinere oplossing beter past, zeggen we dat."],
+  ["Een duidelijk voorstel", "Je weet vooraf wat ik ga bouwen, wat het kost en wanneer je wat kunt verwachten."],
+  ["Eén aanspreekpunt", "Je hoeft je verhaal niet steeds opnieuw te vertellen. Ik ken je bedrijf en je project."],
+  ["Tussentijds resultaat", "Je ziet en test werkende versies terwijl ik bouw, niet pas bij de oplevering."],
+  ["Eerlijk advies", "Past een bestaand pakket of een kleinere oplossing beter? Dan zeg ik dat."],
 ] as const;
 
 export default function AboutPage() {
   return (
     <>
       <PageHero
-        eyebrow="Over Wielstra Group"
-        title="Technologie met een gezicht."
-        intro="Wielstra Group is een technologiebedrijf voor ondernemers die verder willen dan standaard. We bouwen software, automatiseringen en websites, en we doen dat op een manier die persoonlijk en begrijpelijk blijft."
+        eyebrow="Over mij"
+        title="De persoon achter Wielstra Group."
+        intro="Ik ben Joël Wielstra. Met Wielstra Group bouw ik software, automatiseringen en websites voor ondernemers. Je spreekt mij rechtstreeks, van het eerste gesprek tot lang na de oplevering. Zonder vakjargon, tenzij je dat zelf wilt."
       />
 
       <section className="py-20 sm:py-28">
         <Container className="grid gap-16 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-7">
             <Reveal>
-              <SectionTitle index="01" eyebrow="Waarom we bestaan" title="Digitale vraagstukken zijn bedrijfsvraagstukken." />
+              <SectionTitle index="01" eyebrow="Waarom Wielstra Group" title="Een digitaal probleem is meestal een bedrijfsprobleem." />
             </Reveal>
             <Reveal delay={80} className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
               <p>
                 Veel ondernemers kennen het: een website bij het ene bureau, een pakket voor de planning, een spreadsheet
-                voor de voorraad en een collega die alles met de hand aan elkaar knoopt. Ieder onderdeel werkt, maar het
-                geheel niet.
+                voor de voorraad en een collega die alles met de hand bijhoudt. Elk onderdeel werkt op zich, maar samen
+                kost het veel tijd en gaat er regelmatig iets mis.
               </p>
               <p>
-                Wielstra Group is ontstaan om dat anders te doen. We kijken naar het complete plaatje: hoe je werkt, waar
-                tijd verloren gaat en welke technologie daar echt bij helpt. Soms is dat een website, soms een
-                maatwerksysteem, vaak een combinatie met slimme koppelingen.
+                Ik ben Wielstra Group begonnen omdat digitaal werk niet ingewikkeld of onpersoonlijk hoeft te zijn. Ik kijk
+                eerst hoe je werkt en waar tijd verloren gaat. Pas daarna kies ik wat daarbij helpt: soms een website, soms
+                een eigen systeem, vaak een combinatie met een paar goede koppelingen.
               </p>
               <p className="text-ink">
-                We willen niet het grootste IT-bedrijf zijn. Wel de partner die je belt als er iets digitaals moet
-                gebeuren, en die je bedrijf goed genoeg kent om meteen mee te denken.
+                Ik wil geen groot IT-bedrijf zijn waar je een ticketnummer krijgt. Ik wil degene zijn die je belt als er
+                iets digitaals moet gebeuren, en die je bedrijf goed genoeg kent om direct mee te denken.
               </p>
             </Reveal>
           </div>
@@ -70,7 +70,7 @@ export default function AboutPage() {
       <section className="border-t border-line bg-card/60 py-20 sm:py-28">
         <Container>
           <Reveal>
-            <SectionTitle index="02" eyebrow="Waar we voor staan" title="Vier principes die elk project sturen." />
+            <SectionTitle index="02" eyebrow="Waar ik voor sta" title="Vier dingen waar je op kunt rekenen." />
           </Reveal>
           <div className="mt-14 grid gap-px overflow-hidden rounded-[1.5rem] border border-line bg-line md:grid-cols-2">
             {principles.map((item, i) => (
@@ -89,9 +89,9 @@ export default function AboutPage() {
           <Reveal className="lg:col-span-5">
             <SectionTitle
               index="03"
-              eyebrow="Hoe we werken"
-              title="Gestructureerd, transparant en in jouw tempo."
-              intro="Iedere samenwerking volgt dezelfde heldere stappen. Zo weet je altijd waar je staat."
+              eyebrow="Werkwijze"
+              title="Elk project volgt dezelfde vaste stappen."
+              intro="Zo weet je altijd waar het project staat en wat er als volgende gebeurt."
             />
           </Reveal>
           <ol className="lg:col-span-7">
@@ -112,7 +112,7 @@ export default function AboutPage() {
         <div className="bg-grid-dark pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
         <Container className="relative">
           <Reveal>
-            <SectionTitle tone="light" index="04" eyebrow="Wat je van ons mag verwachten" title="Afspraken waar je ons op kunt aanspreken." />
+            <SectionTitle tone="light" index="04" eyebrow="Wat je van mij mag verwachten" title="Afspraken waar je me op kunt aanspreken." />
           </Reveal>
           <dl className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {commitments.map(([title, text], i) => (
@@ -125,7 +125,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <CtaBand title="Zullen we kennismaken?" />
+      <CtaBand title="Zullen we kennismaken?" text="Vertel me over je bedrijf en waar je tegenaan loopt. In een half uur weet je of en hoe ik je kan helpen." />
     </>
   );
 }

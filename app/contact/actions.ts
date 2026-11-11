@@ -33,7 +33,7 @@ export type ContactState = {
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 
-const DEFAULT_SUCCESS = "Bedankt! We hebben je aanvraag ontvangen en nemen zo snel mogelijk persoonlijk contact met je op.";
+const DEFAULT_SUCCESS = "Bedankt voor je bericht! Ik heb je aanvraag ontvangen en neem zo snel mogelijk contact met je op.";
 
 export async function submitContactForm(_: ContactState, formData: FormData): Promise<ContactState> {
   const read = (key: string) => String(formData.get(key) ?? "");
@@ -66,7 +66,7 @@ export async function submitContactForm(_: ContactState, formData: FormData): Pr
   const settings = await getSiteSettings();
 
   if (!settings.contactFormEnabled) {
-    return { error: "Het contactformulier is tijdelijk uitgeschakeld. Neem contact op via e-mail of telefoon.", values };
+    return { error: "Het contactformulier is tijdelijk uitgeschakeld. Je kunt me bereiken via e-mail of telefoon.", values };
   }
 
   const parsed = contactSchema.safeParse(payload);
@@ -102,7 +102,7 @@ export async function submitContactForm(_: ContactState, formData: FormData): Pr
   const supabase = await createServerSupabaseClient();
 
   if (!supabase) {
-    return { error: "Het contactformulier is nog niet geconfigureerd. Mail ons gerust rechtstreeks.", values };
+    return { error: "Het contactformulier werkt op dit moment niet. Mail me gerust rechtstreeks.", values };
   }
 
   const requestLabel = labelFor(REQUEST_TYPES, data.requestType) ?? data.requestType;

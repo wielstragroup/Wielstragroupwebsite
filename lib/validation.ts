@@ -48,7 +48,7 @@ export const legalPageSchema = z.object({
 });
 
 export const contactSchema = z.object({
-  requestType: z.enum(REQUEST_TYPE_VALUES, { message: "Kies waarmee we je kunnen helpen." }),
+  requestType: z.enum(REQUEST_TYPE_VALUES, { message: "Kies waarmee ik je kan helpen." }),
   service: z.enum(SERVICE_VALUES, { message: "Kies een onderwerp." }),
   budget: z.enum(BUDGET_VALUES).catch(""),
   name: z.string().trim().min(2, "Vul je naam in (minimaal 2 tekens).").max(120, "Je naam is te lang."),

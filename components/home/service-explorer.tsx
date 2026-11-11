@@ -82,7 +82,7 @@ function ServicePanel({ group, large = false }: { group: ServiceGroup; large?: b
           <p className="mt-3 leading-relaxed text-ink">{group.outcome}</p>
         </div>
         <div>
-          <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-subtle">Wat we bouwen</p>
+          <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-subtle">Wat ik bouw</p>
           <CheckList items={group.build} className="mt-4" />
         </div>
       </div>

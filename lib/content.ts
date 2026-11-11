@@ -1,14 +1,19 @@
 /**
  * Centrale merkcontent. Pagina's halen hun teksten hieruit, zodat
  * diensten, navigatie en footer altijd met elkaar in lijn blijven.
+ *
+ * Schrijfwijze: Joël spreekt in de ik-vorm over zijn werk; "Wielstra Group"
+ * alleen wanneer het over het bedrijf of merk gaat.
  */
+
+export const OWNER_NAME = "Joël Wielstra";
 
 export const mainNav = [
   { href: "/diensten", label: "Diensten" },
   { href: "/maatwerksoftware", label: "Maatwerksoftware" },
   { href: "/websites", label: "Websites" },
   { href: "/portfolio", label: "Projecten" },
-  { href: "/over", label: "Over ons" },
+  { href: "/over", label: "Over mij" },
 ] as const;
 
 export const legalNav = [
@@ -33,112 +38,112 @@ export const serviceGroups: ServiceGroup[] = [
   {
     id: "web",
     index: "01",
-    title: "Web Development",
-    tagline: "Websites en webshops die werk opleveren.",
+    title: "Websites & webshops",
+    tagline: "Een website die aanvragen oplevert.",
     problem:
-      "Je website ziet er prima uit, maar levert weinig aanvragen op, laadt traag of is lastig zelf bij te werken.",
+      "Je website ziet er netjes uit, maar er komen weinig aanvragen binnen. Of hij is traag, of je moet voor elke tekstwijziging iemand bellen.",
     build: [
-      "Bedrijfswebsites met eigen ontwerp",
-      "Webshops en bestelomgevingen",
+      "Bedrijfswebsites met een eigen ontwerp",
+      "Webshops en bestelmodules",
       "Landingspagina's voor campagnes",
-      "CMS-koppelingen zodat je zelf content beheert",
-      "Technische SEO en performance-optimalisatie",
+      "Een beheeromgeving waarin je zelf teksten aanpast",
+      "Technische SEO en snelle laadtijden",
     ],
     outcome:
-      "Een snelle, vindbare website die bezoekers helder vertelt wat je doet en ze naar een volgende stap leidt.",
+      "Een snelle website die goed vindbaar is, in één oogopslag laat zien wat je doet en bezoekers makkelijk contact laat opnemen.",
     href: "/websites",
   },
   {
     id: "software",
     index: "02",
-    title: "Software Development",
-    tagline: "Software die past op hoe jij werkt.",
+    title: "Maatwerksoftware",
+    tagline: "Software die aansluit op hoe je werkt.",
     problem:
-      "Standaardpakketten dwingen je in hun werkwijze, of je bedrijf draait op een wirwar van spreadsheets en losse tools.",
+      "Een standaardpakket dwingt je om anders te werken dan je wilt. Of je bedrijf draait op een verzameling spreadsheets die alleen jij nog snapt.",
     build: [
-      "CRM-systemen en klantbeheer",
-      "Planning- en roostersoftware",
+      "CRM en klantbeheer",
+      "Planning en roosters",
       "Voorraad- en orderbeheer",
-      "Klant- en personeelsportalen",
+      "Portalen voor klanten of personeel",
       "Interne dashboards en SaaS-platformen",
     ],
     outcome:
-      "Eén systeem dat precies doet wat jouw processen vragen, met overzicht voor iedereen die ermee werkt.",
+      "Eén systeem dat precies doet wat jouw bedrijf nodig heeft, waarin iedereen met dezelfde, actuele gegevens werkt.",
     href: "/maatwerksoftware",
   },
   {
     id: "automation",
     index: "03",
-    title: "Automation & AI",
+    title: "Automatisering & AI",
     tagline: "Minder handwerk, minder fouten.",
     problem:
-      "Medewerkers kopiëren gegevens tussen systemen, sturen dezelfde mails opnieuw en verwerken documenten met de hand.",
+      "Er worden gegevens overgetypt van het ene systeem naar het andere, dezelfde mails steeds opnieuw verstuurd en documenten met de hand verwerkt.",
     build: [
-      "Automatische workflows tussen systemen",
-      "AI-integraties voor tekst, documenten en classificatie",
-      "Slimme notificaties en rapportages",
-      "Automatische offerte- en factuurstromen",
-      "Assistenten op basis van je eigen bedrijfsdata",
+      "Koppelingen die stappen tussen systemen automatisch afhandelen",
+      "AI voor het lezen, sorteren en samenvatten van documenten en e-mails",
+      "Automatische meldingen en rapportages",
+      "Offertes en facturen die zichzelf klaarzetten",
+      "Een AI-assistent die werkt met je eigen bedrijfsinformatie",
     ],
     outcome:
-      "Repeterend werk loopt vanzelf, zodat je team tijd overhoudt voor werk dat aandacht nodig heeft.",
+      "Terugkerend werk gebeurt automatisch, zodat jij en je medewerkers tijd overhouden voor het werk dat echt aandacht vraagt.",
   },
   {
     id: "data",
     index: "04",
-    title: "Data & Infrastructure",
-    tagline: "Een fundament dat klopt en meegroeit.",
+    title: "Data & koppelingen",
+    tagline: "Je gegevens op één plek, en kloppend.",
     problem:
-      "Gegevens staan verspreid, systemen praten niet met elkaar en niemand weet precies welke versie de juiste is.",
+      "Klantgegevens, orders en planning staan op verschillende plekken. Niemand weet zeker welke versie klopt.",
     build: [
-      "Databaseontwerp en datamodellering",
-      "API's en systeemkoppelingen",
-      "Migraties vanuit oude systemen of Excel",
+      "Database-ontwerp en datamodel",
+      "Koppelingen (API's) tussen je systemen",
+      "Overzetten van gegevens uit oude software of Excel",
       "Beveiligde hosting en back-ups",
-      "Authenticatie en rechtenbeheer",
+      "Inloggen met rollen en rechten",
     ],
     outcome:
-      "Betrouwbare data op één plek, veilig opgeslagen en via koppelingen beschikbaar waar je die nodig hebt.",
+      "Betrouwbare gegevens op één centrale plek, veilig opgeslagen en via koppelingen beschikbaar waar je ze nodig hebt.",
   },
   {
     id: "support",
     index: "05",
-    title: "Support & Growth",
-    tagline: "Na livegang begint het pas.",
+    title: "Onderhoud & doorontwikkeling",
+    tagline: "Ook na de oplevering blijf ik betrokken.",
     problem:
-      "Software of een website die na oplevering niemand meer onderhoudt, veroudert, wordt onveilig en sluit niet meer aan.",
+      "Een website of systeem waar na de oplevering niemand meer naar omkijkt, raakt verouderd, wordt kwetsbaar en past na een tijd niet meer bij je bedrijf.",
     build: [
-      "Technisch onderhoud en updates",
-      "Monitoring en beveiligingsupdates",
-      "Doorontwikkeling in overzichtelijke stappen",
-      "Ondersteuning voor gebruikers",
-      "Advies bij nieuwe wensen en groei",
+      "Updates en technisch onderhoud",
+      "Beveiligingsupdates en controle op storingen",
+      "Nieuwe functies in overzichtelijke stappen",
+      "Hulp bij vragen van gebruikers",
+      "Advies wanneer je bedrijf groeit of verandert",
     ],
     outcome:
-      "Je systemen blijven actueel en veilig, en groeien mee met wat je bedrijf morgen nodig heeft.",
+      "Je website en software blijven veilig en actueel, en veranderen mee met je bedrijf.",
   },
 ];
 
 export const problems = [
   {
-    pain: "Je team doet elke week hetzelfde handwerk.",
-    fix: "We automatiseren terugkerende taken en koppelen de stappen aan elkaar.",
+    pain: "Elke week hetzelfde handwerk.",
+    fix: "Ik automatiseer de terugkerende stappen, zodat ze vanzelf gebeuren.",
   },
   {
-    pain: "Je systemen werken niet samen.",
-    fix: "We bouwen koppelingen en API's, zodat gegevens één keer worden ingevoerd.",
+    pain: "Systemen die niet met elkaar praten.",
+    fix: "Ik koppel ze, zodat je alles maar één keer hoeft in te voeren.",
   },
   {
-    pain: "Standaardsoftware past net niet.",
-    fix: "We ontwikkelen software rond jouw proces, niet andersom.",
+    pain: "Software die net niet past.",
+    fix: "Ik bouw software die past bij hoe jij en je medewerkers werken.",
   },
   {
-    pain: "Je website levert te weinig op.",
-    fix: "We bouwen een snelle, vindbare site die bezoekers omzet in aanvragen.",
+    pain: "Een website die weinig oplevert.",
+    fix: "Ik bouw een snelle, vindbare site die bezoekers aanzet tot contact.",
   },
   {
-    pain: "Je bedrijf draait op losse spreadsheets.",
-    fix: "We brengen je data samen in één overzichtelijk systeem met dashboards.",
+    pain: "Alles staat in losse spreadsheets.",
+    fix: "Ik breng je gegevens samen in één systeem met een helder overzicht.",
   },
 ];
 
@@ -146,46 +151,46 @@ export const processSteps = [
   {
     index: "01",
     title: "Kennismaken",
-    text: "We praten over je bedrijf, je doelen en waar het nu vastloopt. Vrijblijvend en zonder verkooppraatje.",
+    text: "Je vertelt over je bedrijf, je doelen en waar het nu vastloopt. Ik luister en stel vragen. Vrijblijvend, en zonder verkooppraatje.",
   },
   {
     index: "02",
-    title: "Analyseren",
-    text: "We brengen je processen in kaart en bepalen wat echt nodig is. Je krijgt een helder voorstel met scope en planning.",
+    title: "Uitzoeken",
+    text: "Ik breng in kaart hoe het werk nu verloopt en wat er echt nodig is. Je krijgt een voorstel met aanpak, planning en prijs.",
   },
   {
     index: "03",
-    title: "Ontwerpen & bouwen",
-    text: "We ontwikkelen in korte rondes en laten tussentijds werkende versies zien, zodat je kunt bijsturen.",
+    title: "Ontwerpen en bouwen",
+    text: "Ik bouw in korte stappen en laat tussendoor werkende versies zien. Zo kun je op tijd bijsturen.",
   },
   {
     index: "04",
-    title: "Lanceren",
-    text: "We testen grondig, zetten alles live en zorgen dat je team ermee aan de slag kan.",
+    title: "Opleveren",
+    text: "Ik test alles grondig, zet het live en zorg dat jij en je medewerkers er direct mee kunnen werken.",
   },
   {
     index: "05",
     title: "Doorontwikkelen",
-    text: "Na livegang blijven we betrokken voor onderhoud, beveiliging en nieuwe wensen.",
+    text: "Na de oplevering blijf ik beschikbaar voor onderhoud, beveiliging en nieuwe wensen.",
   },
 ];
 
 export const principles = [
   {
-    title: "Direct contact met de bouwers",
-    text: "Je spreekt met de mensen die jouw oplossing ontwikkelen. Geen accountmanagers als tussenlaag, wel korte lijnen.",
+    title: "Je spreekt mij direct",
+    text: "Geen accountmanager of helpdesk ertussen. De persoon met wie je het project bespreekt, is ook de persoon die het bouwt.",
   },
   {
     title: "Eerst begrijpen, dan bouwen",
-    text: "We beginnen bij je proces en je doelen, niet bij een technologie die we toevallig willen gebruiken.",
+    text: "Ik begin bij je werkwijze en je doelen. Pas daarna kies ik de techniek die daarbij past.",
   },
   {
-    title: "Breed technisch inzetbaar",
-    text: "Website, software, data en automatisering onder één dak. Je hoeft niet zelf verschillende partijen te coördineren.",
+    title: "Alles op één adres",
+    text: "Website, software, koppelingen en automatisering. Je hoeft niet zelf verschillende partijen op elkaar af te stemmen.",
   },
   {
-    title: "Gebouwd om lang mee te gaan",
-    text: "Onderhoudbare code, heldere documentatie en veiligheid vanaf het eerste ontwerp, zodat je kunt blijven doorbouwen.",
+    title: "Gebouwd om op door te bouwen",
+    text: "Nette, gedocumenteerde code en beveiliging vanaf het begin. Zo kun je later uitbreiden zonder opnieuw te beginnen.",
   },
 ];
 

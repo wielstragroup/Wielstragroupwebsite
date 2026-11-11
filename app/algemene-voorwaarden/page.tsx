@@ -1,16 +1,15 @@
-import type { Metadata } from "next";
-
 import { LegalContent } from "@/components/legal-content";
 import { LegalPage } from "@/components/legal-page";
 import { fillPlaceholders } from "@/lib/legal-content";
 import { formatLegalUpdatedDate, getLegalPage, legalPlaceholderValues } from "@/lib/legal-pages";
+import { pageMetadata } from "@/lib/seo";
 import { getSiteSettings } from "@/lib/site-settings";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Algemene voorwaarden",
   description: "Algemene voorwaarden voor diensten van Wielstra Group.",
-  alternates: { canonical: "/algemene-voorwaarden" },
-};
+  path: "/algemene-voorwaarden",
+});
 
 export default async function TermsPage() {
   const [settings, page] = await Promise.all([

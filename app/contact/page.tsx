@@ -7,15 +7,15 @@ import { getSiteSettings } from "@/lib/site-settings";
 export const metadata = pageMetadata({
   title: "Contact",
   description:
-    "Plan een vrijblijvend kennismakingsgesprek of vraag een offerte aan bij Wielstra Group voor maatwerksoftware, automatisering of een nieuwe website.",
+    "Neem contact op met Joël Wielstra van Wielstra Group. Plan een vrijblijvend kennismakingsgesprek of vraag een offerte aan voor software, automatisering of een website.",
   path: "/contact",
 });
 
 const expectations = [
-  ["Een persoonlijke reactie", "We lezen je aanvraag zelf en nemen zo snel mogelijk contact op om een moment af te stemmen."],
-  ["Kennismaking van ±30 minuten", "Online of telefonisch. We stellen vragen over je bedrijf, je proces en je doelen."],
-  ["Eerlijk advies", "Je hoort wat we zouden aanraden, ook als dat iets kleiners of iets anders is dan je verwachtte."],
-  ["Helder voorstel", "Bij een offerteaanvraag ontvang je een voorstel met aanpak, planning en prijs. Vrijblijvend."],
+  ["Een persoonlijke reactie", "Ik lees je aanvraag zelf en neem zo snel mogelijk contact met je op om een moment af te spreken."],
+  ["Kennismaking van ongeveer 30 minuten", "Online of telefonisch. Ik stel vragen over je bedrijf, hoe je nu werkt en wat je wilt bereiken."],
+  ["Eerlijk advies", "Je hoort wat ik je zou aanraden, ook als dat kleiner of anders is dan je had verwacht."],
+  ["Een duidelijk voorstel", "Vraag je een offerte aan, dan ontvang je een voorstel met aanpak, planning en prijs. Vrijblijvend."],
 ] as const;
 
 type ContactPageProps = {
@@ -45,8 +45,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               Laten we kijken wat er mogelijk is<span className="text-signal">.</span>
             </h1>
             <p className="mt-6 max-w-md text-lg leading-relaxed text-muted">
-              Plan een vrijblijvend kennismakingsgesprek, vraag een offerte aan of stel gewoon je vraag. Je spreekt direct
-              met de mensen die het werk doen.
+              Plan een vrijblijvend kennismakingsgesprek, vraag een offerte aan of stel gewoon je vraag. Je bericht komt
+              rechtstreeks bij mij terecht.
             </p>
 
             {channels.length > 0 || settings.address ? (
@@ -98,7 +98,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             ) : (
               <div>
                 <h2 className="font-display text-2xl font-semibold">Het formulier is tijdelijk niet beschikbaar.</h2>
-                <p className="mt-3 text-lg text-muted">Je kunt ons bereiken via de contactgegevens op deze pagina.</p>
+                <p className="mt-3 text-lg text-muted">Je kunt me bereiken via de contactgegevens op deze pagina.</p>
               </div>
             )}
           </div>

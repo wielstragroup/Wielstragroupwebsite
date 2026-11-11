@@ -8,8 +8,8 @@ type CtaBandProps = {
 };
 
 export function CtaBand({
-  title = "Vertel ons waar het nu schuurt.",
-  text = "In een kennismakingsgesprek van een half uur kijken we samen naar je situatie. Je krijgt een eerlijk beeld van wat mogelijk is, ook als het antwoord is dat je geen maatwerk nodig hebt.",
+  title = "Vertel me waar het nu schuurt.",
+  text = "In een kennismakingsgesprek van een half uur kijk ik met je mee naar je situatie. Je krijgt een eerlijk beeld van wat er mogelijk is, ook als blijkt dat je helemaal geen maatwerk nodig hebt.",
 }: CtaBandProps) {
   return (
     <section className="py-16 sm:py-24">

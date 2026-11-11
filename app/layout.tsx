@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteUrl } from "@/lib/env";
 import { safeUrlOrNull } from "@/lib/security";
+import { OWNER_NAME } from "@/lib/content";
 import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, jsonLd } from "@/lib/seo";
 import { getSiteSettings } from "@/lib/site-settings";
 
@@ -84,6 +85,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     url: siteUrl,
     logo: `${siteUrl}/brand/wielstra-mark.svg`,
     description: DEFAULT_DESCRIPTION,
+    founder: { "@type": "Person", name: OWNER_NAME },
     ...(settings.email ? { email: settings.email } : {}),
     ...(settings.phone ? { telephone: settings.phone } : {}),
     ...(sameAs.length ? { sameAs } : {}),

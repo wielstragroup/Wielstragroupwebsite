@@ -32,8 +32,8 @@ export async function SiteFooter() {
               <span className="font-mono text-[0.62rem] uppercase tracking-[0.22em] text-white/60">Group</span>
             </Link>
             <p className="mt-5 max-w-sm text-[0.95rem] leading-relaxed">
-              Technologiebedrijf voor maatwerksoftware, automatisering, AI-integraties en websites. Persoonlijk contact,
-              technisch sterk.
+              Het bedrijf van Joël Wielstra. Maatwerksoftware, automatisering, AI-koppelingen en websites, met
+              rechtstreeks contact met degene die het bouwt.
             </p>
             {socials.length > 0 ? (
               <ul className="mt-6 flex flex-wrap gap-2">
@@ -67,7 +67,7 @@ export async function SiteFooter() {
             ))}
           </FooterColumn>
 
-          <FooterColumn title="Expertise" className="lg:col-span-3">
+          <FooterColumn title="Diensten" className="lg:col-span-3">
             {serviceGroups.map((group) => (
               <li key={group.id}>
                 <Link href={`/diensten#${group.id}`} className="link-underline transition-colors hover:text-white">

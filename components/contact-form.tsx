@@ -81,7 +81,7 @@ export function ContactForm({ defaultType = "kennismaking", defaultService = "" 
       <fieldset>
         <legend className="flex items-baseline gap-3 font-display text-xl font-semibold tracking-[-0.02em]">
           <span className="font-mono text-xs font-normal text-signal-ink">01</span>
-          Waarmee kunnen we je helpen?
+          Waarmee kan ik je helpen?
         </legend>
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
           {REQUEST_TYPES.map((type) => (
@@ -156,7 +156,7 @@ export function ContactForm({ defaultType = "kennismaking", defaultService = "" 
               />
             </Field>
             <p className="mt-2 flex justify-between font-mono text-xs text-subtle" aria-live="polite">
-              <span>{messageLength < 20 ? `Nog minimaal ${20 - messageLength} tekens` : "Duidelijk, dank je"}</span>
+              <span>{messageLength < 20 ? `Nog minimaal ${20 - messageLength} tekens` : "Genoeg om mee te beginnen"}</span>
               <span>{messageLength} / 3000</span>
             </p>
           </div>

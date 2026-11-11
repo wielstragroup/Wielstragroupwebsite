@@ -12,7 +12,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Projecten",
   description:
-    "Bekijk gerealiseerde projecten van Wielstra Group: websites, webshops, maatwerksoftware en automatiseringen.",
+    "Bekijk projecten die Joël Wielstra met Wielstra Group heeft gebouwd, met per project de vraag van de klant en de uitwerking.",
   path: "/portfolio",
 });
 
@@ -35,7 +35,7 @@ export default async function PortfolioPage({ searchParams }: PortfolioPageProps
       <PageHero
         eyebrow="Projecten"
         title="Werk dat in de praktijk draait."
-        intro="Een selectie van wat we hebben gebouwd. Iedere opdracht begint met een concreet probleem en eindigt met een oplossing die je dagelijks gebruikt."
+        intro="Een selectie van projecten die ik heb gebouwd. Elk project begon met een concrete vraag van een ondernemer."
       />
 
       <section className="py-16 sm:py-24">
@@ -80,7 +80,7 @@ export default async function PortfolioPage({ searchParams }: PortfolioPageProps
         </Container>
       </section>
 
-      {/* Wat we bouwen: helpt bezoekers die (nog) geen vergelijkbaar project zien */}
+      {/* Voor bezoekers die (nog) geen vergelijkbaar project zien */}
       <section className="border-t border-line bg-card/60 py-16 sm:py-20">
         <Container className="grid gap-10 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-6">
@@ -88,8 +88,8 @@ export default async function PortfolioPage({ searchParams }: PortfolioPageProps
               Geen vergelijkbaar project gezien?
             </h2>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
-              Lang niet alles wat we bouwen is publiek zichtbaar: interne systemen en portalen draaien achter een login.
-              Vraag gerust of we ervaring hebben met jouw type vraagstuk.
+              Software en portalen draaien meestal achter een inlog en zijn daarom niet altijd te laten zien. Staat jouw
+              vraag er niet tussen? Leg hem gerust aan me voor, dan hoor je eerlijk of ik je kan helpen.
             </p>
           </div>
           <ul className="flex flex-wrap gap-2 lg:col-span-6 lg:justify-end">
@@ -130,8 +130,8 @@ function EmptyPortfolio() {
     <div className="rounded-[1.5rem] border border-dashed border-line-strong p-10 text-center sm:p-16">
       <p className="font-mono text-xs uppercase tracking-[0.16em] text-subtle">Portfolio in opbouw</p>
       <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-muted">
-        Projecten worden hier gepubliceerd zodra ze live staan en de klant akkoord heeft gegeven. In een gesprek laten we
-        je graag zien hoe we werken.
+        Projecten verschijnen hier zodra ze live staan en de klant akkoord heeft gegeven. In een gesprek laat ik je graag
+        zien hoe ik werk.
       </p>
       <div className="mt-8 flex justify-center">
         <ButtonLink href="/contact?type=kennismaking">Plan een kennismaking</ButtonLink>
