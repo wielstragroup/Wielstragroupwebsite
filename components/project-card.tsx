@@ -1,74 +1,58 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
+import { ArrowIcon } from "@/components/ui/primitives";
 import type { Project } from "@/lib/types";
 
-export function ProjectCard({ project, theme = "light" }: { project: Project; theme?: "dark" | "light" }) {
-  const isDark = theme === "dark";
+type ProjectCardProps = {
+  project: Project;
+  index?: number;
+  /** Groot formaat voor uitgelichte projecten. */
+  feature?: boolean;
+  priority?: boolean;
+};
+
+export function ProjectCard({ project, index, feature = false, priority = false }: ProjectCardProps) {
+  const year = project.date ? new Date(project.date).getFullYear() : null;
 
   return (
-    <article
-      className={`group flex flex-col overflow-hidden rounded-2xl border transition-all duration-300 ${
-        isDark
-          ? "border-slate-800 bg-slate-900/80 hover:-translate-y-1 hover:border-slate-700 hover:shadow-xl"
-          : "border-slate-200/80 bg-white hover:-translate-y-1 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50"
-      }`}
-    >
-      {/* Image Preview Container */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
-        <Image
-          src={project.image}
-          alt={`${project.title} preview`}
-          width={800}
-          height={500}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-        
-        {/* Category Tag */}
-        <div className="absolute left-4 top-4">
-          <span className="inline-flex items-center rounded-lg border border-white/20 bg-slate-950/80 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
-            {project.category}
+    <article className="group relative">
+      <Link href={`/portfolio/${project.slug}`} className="block focus-visible:outline-none">
+        <div
+          className={`relative overflow-hidden rounded-[1.5rem] border border-line bg-paper-2 ${
+            feature ? "aspect-[16/10]" : "aspect-[4/3]"
+          } group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-signal`}
+        >
+          <Image
+            src={project.image}
+            alt={`Beeld van project ${project.title}`}
+            fill
+            priority={priority}
+            sizes={feature ? "(min-width: 1024px) 66vw, 100vw" : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"}
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          />
+          <div className="absolute left-4 top-4 flex gap-2">
+            <span className="rounded-full bg-paper/90 px-3 py-1 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-ink backdrop-blur">
+              {project.category}
+            </span>
+          </div>
+          <span className="absolute bottom-4 right-4 flex h-11 w-11 translate-y-2 items-center justify-center rounded-full bg-ink text-paper opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+            <ArrowIcon />
           </span>
         </div>
-      </div>
-
-      {/* Card Content */}
-      <div className="flex flex-1 flex-col justify-between p-6">
-        <div className="space-y-2">
-          <h3 className={`text-xl font-bold tracking-tight transition-colors ${
-            isDark ? "text-white group-hover:text-slate-200" : "text-slate-950 group-hover:text-slate-800"
-          }`}>
-            {project.title}
-          </h3>
-          <p className={`line-clamp-2 text-sm leading-relaxed ${
-            isDark ? "text-slate-400" : "text-slate-600"
-          }`}>
-            {project.shortDescription}
+        <div className="mt-5 flex items-start justify-between gap-6">
+          <div>
+            <h3 className={`font-display font-semibold tracking-[-0.03em] ${feature ? "text-3xl" : "text-2xl"}`}>
+              {project.title}
+            </h3>
+            <p className="mt-2 max-w-xl leading-relaxed text-muted">{project.shortDescription}</p>
+          </div>
+          <p className="shrink-0 pt-1.5 font-mono text-xs text-subtle">
+            {typeof index === "number" ? String(index + 1).padStart(2, "0") : null}
+            {year ? ` / ${year}` : null}
           </p>
         </div>
-
-        <div className="mt-6 pt-4 border-t border-slate-800/20">
-          <Link
-            href={`/portfolio/${project.slug}`}
-            className={`inline-flex items-center gap-2 text-sm font-semibold transition-all ${
-              isDark
-                ? "text-slate-200 group-hover:text-white"
-                : "text-slate-900 group-hover:text-slate-950"
-            }`}
-          >
-            <span>Bekijk project</span>
-            <svg
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </Link>
-        </div>
-      </div>
+      </Link>
     </article>
   );
 }

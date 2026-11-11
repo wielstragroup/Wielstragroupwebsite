@@ -2,144 +2,199 @@
 
 import { Resend } from "resend";
 
-import { getSiteSettings } from "@/lib/site-settings";
+import { BUDGET_OPTIONS, labelFor, REQUEST_TYPES, SERVICE_OPTIONS } from "@/lib/contact-options";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { getClientIp } from "@/lib/request";
-import {
-  escapeHtml,
-  escapeHtmlMultiline,
-  sanitizeEmailHeader,
-} from "@/lib/security";
+import { escapeHtml, escapeHtmlMultiline, sanitizeEmailHeader } from "@/lib/security";
+import { getSiteSettings } from "@/lib/site-settings";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { contactSchema } from "@/lib/validation";
+
+export type ContactField =
+  | "requestType"
+  | "service"
+  | "budget"
+  | "name"
+  | "companyName"
+  | "email"
+  | "phone"
+  | "message"
+  | "consent";
 
 export type ContactState = {
   success?: string;
   error?: string;
+  fieldErrors?: Partial<Record<ContactField, string>>;
+  /** Ingevulde waarden, zodat het formulier na een fout niet leeg raakt. */
+  values?: Partial<Record<ContactField, string>>;
 };
 
 /** Max 5 inzendingen per IP per 10 minuten. */
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 
-export async function submitContactForm(
-  _: ContactState,
-  formData: FormData,
-): Promise<ContactState> {
+const DEFAULT_SUCCESS = "Bedankt! We hebben je aanvraag ontvangen en nemen zo snel mogelijk persoonlijk contact met je op.";
+
+export async function submitContactForm(_: ContactState, formData: FormData): Promise<ContactState> {
+  const read = (key: string) => String(formData.get(key) ?? "");
+
   const payload = {
-    name: String(formData.get("name") ?? ""),
-    companyName: String(formData.get("companyName") ?? ""),
-    email: String(formData.get("email") ?? ""),
-    message: String(formData.get("message") ?? ""),
-    website: String(formData.get("website") ?? ""),
+    requestType: read("requestType"),
+    service: read("service"),
+    budget: read("budget"),
+    name: read("name"),
+    companyName: read("companyName"),
+    email: read("email"),
+    phone: read("phone"),
+    message: read("message"),
+    consent: read("consent"),
+    website: read("website"),
   };
+
+  const values: ContactState["values"] = {
+    requestType: payload.requestType,
+    service: payload.service,
+    budget: payload.budget,
+    name: payload.name,
+    companyName: payload.companyName,
+    email: payload.email,
+    phone: payload.phone,
+    message: payload.message,
+    consent: payload.consent,
+  };
+
+  const settings = await getSiteSettings();
+
+  if (!settings.contactFormEnabled) {
+    return { error: "Het contactformulier is tijdelijk uitgeschakeld. Neem contact op via e-mail of telefoon.", values };
+  }
 
   const parsed = contactSchema.safeParse(payload);
 
   if (!parsed.success) {
-    return { error: "Controleer je invoer en probeer opnieuw." };
+    const fieldErrors: ContactState["fieldErrors"] = {};
+    for (const issue of parsed.error.issues) {
+      const key = issue.path[0] as ContactField;
+      if (key && !fieldErrors[key]) fieldErrors[key] = issue.message;
+    }
+    return { error: "Controleer de gemarkeerde velden.", fieldErrors, values };
   }
+
+  const data = parsed.data;
 
   // Honeypot tegen spam. Bewust dezelfde melding als bij succes,
   // zodat een bot niet kan afleiden dat hij herkend is.
-  if (parsed.data.website) {
-    return { success: "Bedankt! Je bericht is ontvangen." };
+  if (data.website) {
+    return { success: DEFAULT_SUCCESS };
   }
 
-  // Rate limiting op IP-niveau.
   const ip = await getClientIp();
   const rate = checkRateLimit(`contact:${ip}`, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS);
 
   if (!rate.allowed) {
     const minutes = Math.ceil(rate.retryAfterSeconds / 60);
     return {
-      error: `Je hebt te veel berichten verstuurd. Probeer het over ${minutes} minuut${
-        minutes === 1 ? "" : "en"
-      } opnieuw.`,
+      error: `Je hebt te veel berichten verstuurd. Probeer het over ${minutes} minuut${minutes === 1 ? "" : "en"} opnieuw.`,
+      values,
     };
   }
 
   const supabase = await createServerSupabaseClient();
 
   if (!supabase) {
-    return { error: "Contactformulier is nog niet geconfigureerd." };
+    return { error: "Het contactformulier is nog niet geconfigureerd. Mail ons gerust rechtstreeks.", values };
   }
 
-  // 1. Bericht opslaan in Supabase.
-  const { error } = await supabase.from("contact_messages").insert({
-    name: parsed.data.name,
-    company_name: parsed.data.companyName,
-    email: parsed.data.email,
-    message: parsed.data.message,
+  const requestLabel = labelFor(REQUEST_TYPES, data.requestType) ?? data.requestType;
+  const serviceLabel = labelFor(SERVICE_OPTIONS, data.service) ?? data.service;
+  const budgetLabel = labelFor(BUDGET_OPTIONS, data.budget);
+
+  const baseRow = {
+    name: data.name,
+    company_name: data.companyName,
+    email: data.email,
+    message: data.message,
+  };
+
+  // 1. Opslaan in Supabase, inclusief de nieuwe velden.
+  let { error } = await supabase.from("contact_messages").insert({
+    ...baseRow,
+    request_type: data.requestType,
+    service: data.service,
+    budget: data.budget || null,
+    phone: data.phone || null,
   });
 
+  // Is de migratie met de nieuwe kolommen nog niet uitgevoerd? Dan slaan we
+  // de extra gegevens op in het bericht zelf, zodat er niets verloren gaat.
+  if (error && (error.code === "PGRST204" || error.code === "42703")) {
+    const details = [
+      `Type aanvraag: ${requestLabel}`,
+      `Onderwerp: ${serviceLabel}`,
+      budgetLabel ? `Budget: ${budgetLabel}` : null,
+      data.phone ? `Telefoon: ${data.phone}` : null,
+    ]
+      .filter(Boolean)
+      .join("\n");
+    ({ error } = await supabase
+      .from("contact_messages")
+      .insert({ ...baseRow, message: `${details}\n\n${data.message}` }));
+  }
+
   if (error) {
-    return { error: "Opslaan mislukt. Probeer het later opnieuw." };
+    console.error("Contactformulier opslaan mislukt:", error.code, error.message);
+    return {
+      error: settings.contactFormErrorMessage || "Versturen is niet gelukt. Probeer het later opnieuw.",
+      values,
+    };
   }
 
-  // 2. E-mail versturen via Resend.
+  // 2. Notificatie per e-mail via Resend.
   const resendApiKey = process.env.RESEND_API_KEY;
+  const recipient = settings.contactFormRecipient || settings.email || process.env.CONTACT_RECIPIENT_EMAIL;
+  const successMessage = settings.contactFormSuccessMessage || DEFAULT_SUCCESS;
 
-  if (!resendApiKey) {
-    console.error("RESEND_API_KEY ontbreekt.");
-    // Het bericht staat al veilig in Supabase, dus dit is geen
-    // fout voor de bezoeker.
-    return { success: "Bedankt! Je bericht is ontvangen." };
-  }
-
-  // Ontvanger komt uit de dashboardinstellingen, met env-variabele
-  // als fallback zodat er nooit een hardcoded adres in de code staat.
-  const settings = await getSiteSettings();
-  const recipient =
-    settings.contactFormRecipient ||
-    settings.email ||
-    process.env.CONTACT_RECIPIENT_EMAIL;
-
-  if (!recipient) {
-    console.error("Geen ontvanger ingesteld voor het contactformulier.");
-    return { success: "Bedankt! Je bericht is ontvangen." };
+  if (!resendApiKey || !recipient) {
+    if (!resendApiKey) console.error("RESEND_API_KEY ontbreekt; aanvraag staat wel in de database.");
+    if (!recipient) console.error("Geen ontvanger ingesteld voor het contactformulier.");
+    return { success: successMessage };
   }
 
   const fromAddress = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
   const resend = new Resend(resendApiKey);
 
-  // Alle door de bezoeker aangeleverde waarden worden ge-escaped voordat
-  // ze in de HTML-mail terechtkomen (voorkomt HTML/e-mail-injectie).
-  const safeName = escapeHtml(parsed.data.name);
-  const safeCompany = parsed.data.companyName
-    ? escapeHtml(parsed.data.companyName)
-    : "Niet opgegeven";
-  const safeEmail = escapeHtml(parsed.data.email);
-  const safeMessage = escapeHtmlMultiline(parsed.data.message);
+  // Alle bezoekerswaarden worden ge-escaped (voorkomt HTML/e-mail-injectie).
+  const rows: [string, string][] = [
+    ["Type aanvraag", requestLabel],
+    ["Onderwerp", serviceLabel],
+    ["Budget", budgetLabel ?? "Niet opgegeven"],
+    ["Naam", data.name],
+    ["Bedrijf", data.companyName || "Niet opgegeven"],
+    ["E-mail", data.email],
+    ["Telefoon", data.phone || "Niet opgegeven"],
+  ];
 
   try {
     await resend.emails.send({
       from: `${sanitizeEmailHeader(settings.companyName)} <${fromAddress}>`,
       to: [recipient],
-      subject: sanitizeEmailHeader(
-        `${settings.contactFormSubject || "Nieuw contactformulier"}: ${parsed.data.name}`,
-      ),
-      replyTo: sanitizeEmailHeader(parsed.data.email),
+      subject: sanitizeEmailHeader(`${settings.contactFormSubject || "Nieuwe aanvraag"} (${requestLabel}): ${data.name}`),
+      replyTo: sanitizeEmailHeader(data.email),
       html: `
-        <h2>Nieuw bericht via de website</h2>
-
-        <p><strong>Naam:</strong> ${safeName}</p>
-        <p><strong>Bedrijf:</strong> ${safeCompany}</p>
-        <p><strong>E-mail:</strong> ${safeEmail}</p>
-
+        <h2>Nieuwe aanvraag via de website</h2>
+        <table cellpadding="6" style="border-collapse:collapse">
+          ${rows
+            .map(([label, value]) => `<tr><td><strong>${escapeHtml(label)}</strong></td><td>${escapeHtml(value)}</td></tr>`)
+            .join("")}
+        </table>
         <h3>Bericht</h3>
-        <p>${safeMessage}</p>
+        <p>${escapeHtmlMultiline(data.message)}</p>
       `,
     });
   } catch (emailError) {
+    // De aanvraag staat al veilig in Supabase; geen fout tonen aan de bezoeker.
     console.error("Resend error:", emailError);
-
-    // Het bericht staat al veilig in Supabase.
-    // We geven daarom geen foutmelding waardoor de klant denkt
-    // dat het formulier helemaal mislukt is.
   }
 
-  return {
-    success: settings.contactFormSuccessMessage || "Bedankt! Je bericht is ontvangen.",
-  };
+  return { success: successMessage };
 }
