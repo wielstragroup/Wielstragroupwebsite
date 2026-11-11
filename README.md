@@ -11,7 +11,9 @@ Professionele Next.js website met portfolio-CMS voor Wielstra Group.
 
 ## Features
 
-- Publieke pagina's: `/`, `/diensten`, `/portfolio`, `/portfolio/[slug]`, `/over`, `/contact`
+- Publieke pagina's: `/`, `/diensten`, `/maatwerksoftware`, `/websites`, `/portfolio`, `/portfolio/[slug]`, `/over`, `/contact`
+- Huisstijl: design tokens in `app/globals.css` (`@theme`), logo in `components/brand/logo.tsx` en `public/brand/`, merkteksten in `lib/content.ts`
+- Contact-/offerteformulier met type aanvraag, onderwerp, budget en telefoon (vereist migratie `20261111120000_contact_request_details.sql`; zonder migratie worden deze gegevens in het bericht zelf opgeslagen)
 - Portfolio volledig database-gedreven (geen hardcoded items in frontend)
 - Beveiligd admin dashboard:
   - `/admin/login`

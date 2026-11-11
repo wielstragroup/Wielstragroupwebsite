@@ -1,151 +1,137 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
-import { SectionHeading } from "@/components/section-heading";
+import { CtaBand } from "@/components/ui/cta-band";
+import { PageHero } from "@/components/ui/page-hero";
+import { ArrowIcon, ButtonLink, CheckList, Container } from "@/components/ui/primitives";
+import { Reveal } from "@/components/ui/reveal";
+import { serviceGroups } from "@/lib/content";
+import { siteUrl } from "@/lib/env";
+import { jsonLd, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Diensten",
-  description: "Ontdek de diensten van Wielstra Group: websites bouwen, verbeteren, onderhouden en online zichtbaarheid vergroten.",
-  alternates: { canonical: "/diensten" },
-};
-
-const services = [
-  {
-    id: "bouwen",
-    title: "Website bouwen",
-    subtitle: "Een gloednieuwe online basis voor jouw onderneming",
-    text: "Van het eerste idee tot een volledig werkende website. We bouwen een modern, snel en overzichtelijk platform dat precies past bij jouw uitstraling en doelen.",
-    features: [
-      "Uniek ontwerp afgestemd op jouw huisstijl",
-      "Volledig responsive voor mobiel, tablet en desktop",
-      "Overzichtelijke navigatie en duidelijke indeling",
-      "Klaar om direct klanten aan te spreken",
-    ],
-  },
-  {
-    id: "verbeteren",
-    title: "Website verbeteren",
-    subtitle: "Vernieuwing en optimalisatie van je bestaande website",
-    text: "Heeft jouw huidige website verouderde vormgeving of werkt hij niet prettig op mobiel? We moderniseren het design en verbeteren het gebruiksgemak.",
-    features: [
-      "Modernisering van visuele stijl",
-      "Verbetering van mobiele weergave en snelheid",
-      "Optimalisatie van conversiekansen",
-      "Opschonen van structuur en content",
-    ],
-  },
-  {
-    id: "onderhoud",
-    title: "Website onderhoud",
-    subtitle: "Zorgeloos technisch beheer en ondersteuning",
-    text: "Een website heeft periodiek onderhoud nodig om veilig en goed te blijven werken. Wij nemen het technische beheer en kleine aanpassingen uit handen.",
-    features: [
-      "Periodieke veiligheidsupdates",
-      "Bewaking van bereikbaarheid en prestaties",
-      "Directe hulp bij vragen of wijzigingen",
-      "Zorgeloze werking zonder dat je er omkijken naar hebt",
-    ],
-  },
-  {
-    id: "zichtbaarheid",
-    title: "Online zichtbaarheid",
-    subtitle: "Helder gevonden worden door de juiste doelgroep",
-    text: "Een mooie website levert pas het meeste op als bezoekers hem makkelijk kunnen vinden en meteen snappen wat je biedt.",
-    features: [
-      "Goede SEO-basisinrichting voor zoekmachines",
-      "Heldere opbouw van pagina's en teksten",
-      "Snelle laadtijden op alle apparaten",
-      "Duidelijke oproepen tot actie",
-    ],
-  },
-];
+  description:
+    "Websites, maatwerksoftware, automatisering en AI, koppelingen en onderhoud. Bekijk waar Joël Wielstra van Wielstra Group je bedrijf mee kan helpen.",
+  path: "/diensten",
+});
 
 export default function ServicesPage() {
+  const servicesLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: serviceGroups.map((group, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Service",
+        name: group.title,
+        description: group.outcome,
+        url: `${siteUrl}/diensten#${group.id}`,
+        provider: { "@type": "Organization", name: "Wielstra Group", url: siteUrl },
+      },
+    })),
+  };
+
   return (
-    <div className="bg-slate-950 text-slate-100">
-      {/* Header Section */}
-      <section className="relative border-b border-slate-800 bg-slate-950 py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            theme="dark"
-            eyebrow="Diensten"
-            title="Praktische ondersteuning voor jouw online groei"
-            text="Geen ingewikkelde pakketten, maar een persoonlijke aanpak die past bij jouw onderneming."
-          />
-        </div>
-      </section>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(servicesLd)} />
+      <PageHero
+        eyebrow="Diensten"
+        title="Website, software of automatisering. Het hoort bij elkaar."
+        intro="Ik werk op vijf terreinen die in de praktijk vaak met elkaar te maken hebben. Je kunt met één vraag beginnen. Ik kijk daarbij altijd hoe de oplossing past bij de rest van je bedrijf."
+      >
+        <ButtonLink href="/contact?type=offerte">Vraag een offerte aan</ButtonLink>
+        <ButtonLink href="/contact?type=kennismaking" variant="secondary">
+          Plan een kennismaking
+        </ButtonLink>
+      </PageHero>
 
-      {/* Services Grid Section */}
-      <section className="bg-slate-50 py-16 text-slate-900 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-2">
-            {services.map((service) => (
-              <article
-                key={service.title}
-                id={service.id}
-                className="scroll-mt-24 flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-white p-8 shadow-sm transition hover:border-slate-300 hover:shadow-xl"
-              >
-                <div>
-                  <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-700">
-                    <span>{service.title}</span>
-                  </div>
-                  <h2 className="text-2xl font-bold tracking-tight text-slate-950">{service.subtitle}</h2>
-                  <p className="mt-4 text-sm leading-relaxed text-slate-600">{service.text}</p>
-
-                  <div className="mt-6 border-t border-slate-100 pt-6">
-                    <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Belangrijkste punten</p>
-                    <ul className="mt-3 space-y-2.5 text-sm text-slate-700">
-                      {service.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2.5">
-                          <svg className="mt-0.5 h-4 w-4 shrink-0 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                          </svg>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-4">
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-slate-900 transition hover:text-black"
-                  >
-                    <span>Vraag een voorstel aan</span>
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </Link>
-                </div>
-              </article>
+      {/* Snelnavigatie */}
+      <nav aria-label="Diensten op deze pagina" className="sticky top-[4.5rem] z-30 border-b border-line bg-paper/90 backdrop-blur-md">
+        <Container>
+          <ul className="-mx-2 flex gap-1 overflow-x-auto py-3">
+            {serviceGroups.map((group) => (
+              <li key={group.id}>
+                <a
+                  href={`#${group.id}`}
+                  className="flex items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium text-muted transition-colors hover:bg-ink hover:text-paper"
+                >
+                  <span className="font-mono text-[0.68rem]">{group.index}</span>
+                  {group.title}
+                </a>
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+        </Container>
+      </nav>
+
+      <div>
+        {serviceGroups.map((group, i) => (
+          <section
+            key={group.id}
+            id={group.id}
+            aria-labelledby={`${group.id}-title`}
+            className={`scroll-mt-36 border-b border-line py-20 sm:py-28 ${i % 2 === 1 ? "bg-card/60" : ""}`}
+          >
+            <Container className="grid gap-12 lg:grid-cols-12">
+              <Reveal className="lg:col-span-5">
+                <p className="font-display text-[5rem] font-semibold leading-none tracking-[-0.06em] text-ink/10 sm:text-[7rem]">
+                  {group.index}
+                </p>
+                <h2
+                  id={`${group.id}-title`}
+                  className="mt-2 font-display text-4xl font-semibold tracking-[-0.04em] sm:text-5xl"
+                >
+                  {group.title}
+                </h2>
+                <p className="mt-4 text-xl text-muted">{group.tagline}</p>
+                {group.href ? (
+                  <Link href={group.href} className="group mt-8 inline-flex items-center gap-2 font-semibold">
+                    <span className="link-underline">Lees de volledige toelichting</span>
+                    <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                ) : null}
+              </Reveal>
+
+              <div className="grid gap-px overflow-hidden rounded-[1.5rem] border border-line bg-line md:grid-cols-2 lg:col-span-7">
+                <Reveal className="bg-paper p-8">
+                  <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-signal-ink">Het probleem</p>
+                  <p className="mt-4 text-lg leading-relaxed">{group.problem}</p>
+                </Reveal>
+                <Reveal delay={80} className="bg-paper p-8">
+                  <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-pine">Wat het oplevert</p>
+                  <p className="mt-4 text-lg leading-relaxed">{group.outcome}</p>
+                </Reveal>
+                <Reveal delay={160} className="bg-paper p-8 md:col-span-2">
+                  <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-subtle">Wat ik bouw</p>
+                  <CheckList items={group.build} columns className="mt-5" />
+                </Reveal>
+              </div>
+            </Container>
+          </section>
+        ))}
+      </div>
+
+      <section className="py-20 sm:py-24">
+        <Container>
+          <Reveal className="grid gap-8 rounded-[1.5rem] border border-line bg-card p-8 sm:p-12 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-8">
+              <h2 className="font-display text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
+                Staat jouw vraag er niet tussen?
+              </h2>
+              <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
+                Deze lijst is niet compleet. Loop je binnen je bedrijf tegen een digitaal probleem aan, dan denk ik graag
+                mee. En als een bestaand pakket beter past dan maatwerk, hoor je dat ook van mij.
+              </p>
+            </div>
+            <div className="lg:col-span-4 lg:text-right">
+              <ButtonLink href="/contact">Leg je vraag voor</ButtonLink>
+            </div>
+          </Reveal>
+        </Container>
       </section>
 
-      {/* CTA Section */}
-      <section className="border-t border-slate-800 bg-slate-950 py-16 text-center sm:py-24">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            Benieuwd wat het beste past bij jouw wensen?
-          </h2>
-          <p className="mt-4 text-base text-slate-300">
-            Neem gerust contact op. We bespreken je project graag en kijken samen naar een passende oplossing.
-          </p>
-          <div className="mt-8">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 shadow-md transition hover:bg-slate-200"
-            >
-              <span>Neem contact op</span>
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+      <CtaBand />
+    </>
   );
 }

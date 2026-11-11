@@ -7,7 +7,6 @@ const navItems = [
   { href: "/admin/dashboard", label: "Dashboard" },
   { href: "/admin/projects", label: "Projecten" },
   { href: "/admin/media", label: "Mediabibliotheek" },
-  { href: "/admin/home", label: "Homepagina" },
   { href: "/admin/contact", label: "Contactaanvragen" },
   { href: "/admin/analytics", label: "Analytics" },
   { href: "/admin/legal", label: "Juridische pagina's" },

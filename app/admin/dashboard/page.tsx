@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { requireAdmin } from "@/lib/auth";
-import { getAllHomeSections } from "@/lib/sections/data";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -10,11 +9,6 @@ export const metadata: Metadata = {
 };
 
 const shortcuts = [
-  {
-    href: "/admin/home",
-    title: "Homepagina",
-    description: "Secties toevoegen, verplaatsen, tonen of verbergen.",
-  },
   {
     href: "/admin/settings",
     title: "Website-instellingen",
@@ -56,7 +50,6 @@ export default async function AdminDashboardPage() {
     { count: drafts },
     { data: latest },
     { count: contactMessages },
-    sections,
   ] = await Promise.all([
     supabase.from("projects").select("id", { count: "exact", head: true }),
     supabase.from("projects").select("id", { count: "exact", head: true }).eq("published", true),
@@ -67,10 +60,7 @@ export default async function AdminDashboardPage() {
       .order("created_at", { ascending: false })
       .limit(5),
     supabase.from("contact_messages").select("id", { count: "exact", head: true }),
-    getAllHomeSections(),
   ]);
-
-  const visibleSections = sections.filter((section) => section.enabled).length;
 
   return (
     <div className="space-y-6">
@@ -86,7 +76,7 @@ export default async function AdminDashboardPage() {
         </Link>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-sm text-slate-500">Projecten</p>
           <p className="mt-2 text-3xl font-semibold text-slate-950">{total ?? 0}</p>
@@ -98,16 +88,6 @@ export default async function AdminDashboardPage() {
         <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-sm text-slate-500">Concepten</p>
           <p className="mt-2 text-3xl font-semibold text-slate-950">{drafts ?? 0}</p>
-        </article>
-        <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-500">Zichtbare secties</p>
-          <p className="mt-2 text-3xl font-semibold text-slate-950">
-            {visibleSections}
-            <span className="text-base font-normal text-slate-400">
-              {" "}
-              / {sections.length}
-            </span>
-          </p>
         </article>
         <Link
           href="/admin/contact"

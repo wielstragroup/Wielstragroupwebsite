@@ -1,13 +1,38 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+
+import { LogoMark } from "@/components/brand/logo";
+import { ButtonLink, Container, Eyebrow } from "@/components/ui/primitives";
+
+export const metadata: Metadata = {
+  title: "Pagina niet gevonden",
+  robots: { index: false },
+};
 
 export default function NotFound() {
   return (
-    <section className="mx-auto w-full max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-semibold text-slate-950">Pagina niet gevonden</h1>
-      <p className="mt-3 text-slate-600">De pagina die je zoekt bestaat niet of is verplaatst.</p>
-      <Link href="/" className="mt-6 inline-flex rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white">
-        Terug naar home
-      </Link>
+    <section className="relative overflow-hidden">
+      <div className="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden="true" />
+      <Container className="relative grid gap-12 py-24 sm:py-32 lg:grid-cols-12 lg:items-center">
+        <div className="lg:col-span-7">
+          <Eyebrow>Fout 404</Eyebrow>
+          <h1 className="mt-6 font-display text-5xl font-semibold leading-[0.98] tracking-[-0.045em] sm:text-7xl">
+            Deze verbinding loopt dood<span className="text-signal">.</span>
+          </h1>
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted">
+            De pagina die je zoekt bestaat niet (meer) of is verplaatst. Geen zorgen, de rest van het systeem werkt nog
+            prima.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <ButtonLink href="/">Naar de homepage</ButtonLink>
+            <ButtonLink href="/contact" variant="secondary">
+              Neem contact op
+            </ButtonLink>
+          </div>
+        </div>
+        <div className="hidden lg:col-span-5 lg:block">
+          <LogoMark className="ml-auto h-64 w-64 text-ink/10" accent="var(--color-signal)" />
+        </div>
+      </Container>
     </section>
   );
 }

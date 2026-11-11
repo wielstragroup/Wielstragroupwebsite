@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { deleteContactMessageAction } from "@/app/admin/contact/actions";
 import { requireAdmin } from "@/lib/auth";
+import { BUDGET_OPTIONS, labelFor, REQUEST_TYPES, SERVICE_OPTIONS } from "@/lib/contact-options";
 
 export const metadata: Metadata = {
   title: "Contactaanvragen",
@@ -14,10 +15,34 @@ export default async function AdminContactPage({
   searchParams: Promise<{ success?: string; error?: string }>;
 }) {
   const { supabase } = await requireAdmin();
-  const { data: messages } = await supabase
+  // Eerst met de nieuwe kolommen; valt terug op de basisvelden zolang
+  // de migratie 20261111120000_contact_request_details nog niet is uitgevoerd.
+  type Message = {
+    id: string;
+    name: string;
+    company_name: string;
+    email: string;
+    message: string;
+    created_at: string;
+    request_type?: string | null;
+    service?: string | null;
+    budget?: string | null;
+    phone?: string | null;
+  };
+
+  const full = await supabase
     .from("contact_messages")
-    .select("id,name,company_name,email,message,created_at")
+    .select("id,name,company_name,email,message,created_at,request_type,service,budget,phone")
     .order("created_at", { ascending: false });
+
+  let messages: Message[] | null = full.data as Message[] | null;
+  if (full.error) {
+    const basic = await supabase
+      .from("contact_messages")
+      .select("id,name,company_name,email,message,created_at")
+      .order("created_at", { ascending: false });
+    messages = basic.data as Message[] | null;
+  }
 
   const { success, error } = await searchParams;
 
@@ -63,6 +88,22 @@ export default async function AdminContactPage({
                   </form>
                 </div>
               </div>
+              {item.request_type || item.service || item.budget || item.phone ? (
+                <ul className="mt-3 flex flex-wrap gap-2 text-xs">
+                  {[
+                    labelFor(REQUEST_TYPES, item.request_type),
+                    labelFor(SERVICE_OPTIONS, item.service),
+                    item.budget ? `Budget: ${labelFor(BUDGET_OPTIONS, item.budget) ?? item.budget}` : null,
+                    item.phone ? `Tel: ${item.phone}` : null,
+                  ]
+                    .filter(Boolean)
+                    .map((tag) => (
+                      <li key={tag} className="rounded-full bg-slate-100 px-2.5 py-1 font-medium text-slate-700">
+                        {tag}
+                      </li>
+                    ))}
+                </ul>
+              ) : null}
               <p className="mt-3 whitespace-pre-wrap text-sm text-slate-700">{item.message}</p>
             </article>
           ))}

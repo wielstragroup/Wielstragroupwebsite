@@ -47,27 +47,27 @@ export const DEFAULT_LEGAL_PAGES: Record<
     intro:
       "{{companyName}} respecteert je privacy en gaat zorgvuldig om met persoonsgegevens, in lijn met de Algemene Verordening Gegevensbescherming (AVG/GDPR).",
     content: `## 1. Wie is verantwoordelijk voor je gegevens?
-{{companyName}} is de verwerkingsverantwoordelijke voor de persoonsgegevens die via deze website worden verzameld.
+{{companyName}} is de verwerkingsverantwoordelijke voor de persoonsgegevens die via deze website worden verzameld. {{companyName}} is de onderneming van Joël Wielstra; waar in dit privacybeleid 'ik' staat, wordt {{companyName}} bedoeld.
 
 - Bedrijfsnaam: {{companyName}}
 - Adres: {{address}}
 - E-mail: [{{email}}](mailto:{{email}})
 - Telefoon: {{phone}}
 
-## 2. Welke gegevens verzamelen we en waarom?
+## 2. Welke gegevens verzamel ik en waarom?
 
 ### Contactformulier
-Wanneer je het contactformulier invult, verwerken we je naam, (optioneel) bedrijfsnaam, e-mailadres en bericht. We gebruiken deze gegevens uitsluitend om te reageren op je aanvraag. De grondslag hiervoor is ons gerechtvaardigd belang om vragen van (potentiële) klanten te beantwoorden, en waar van toepassing de uitvoering van (voor)overeenkomsten.
+Wanneer je het contactformulier invult, verwerk ik je naam, e-mailadres, het soort aanvraag, het onderwerp en je bericht, en als je die invult ook je bedrijfsnaam, telefoonnummer en budgetindicatie. Ik gebruik deze gegevens uitsluitend om op je aanvraag te reageren. De grondslag hiervoor is mijn gerechtvaardigd belang om vragen van (potentiële) klanten te beantwoorden, en waar van toepassing de uitvoering van (voor)overeenkomsten.
 
 ### Bezoekstatistieken (analytics)
-We houden geanonimiseerde bezoekstatistieken bij (welke pagina's worden bezocht en hoe vaak). Hiervoor gebruiken we geen trackingcookies en slaan we geen IP-adressen op: bezoekers worden herkend via een dagelijks roterende, onomkeerbare hash die na 24 uur niet meer herleidbaar is naar eerdere bezoeken. Omdat deze methode geen of nauwelijks impact heeft op je privacy, is hiervoor geen toestemming vereist. Zie ons [cookiebeleid](/cookiebeleid) voor meer details.
+Ik houd bezoekstatistieken bij om te zien welke pagina's worden bezocht en hoe vaak. Hiervoor gebruik ik geen cookies en sla ik niets op je apparaat op. Per paginabezoek bewaar ik alleen de bezochte pagina, het tijdstip en een onomkeerbare code (hash). Die code wordt berekend uit je IP-adres en browsertype, gecombineerd met een geheime sleutel die elke dag verandert. Je IP-adres zelf sla ik niet op en ik kan je niet over meerdere dagen volgen. De grondslag is mijn gerechtvaardigd belang om te begrijpen hoe de website wordt gebruikt. Zie het [cookiebeleid](/cookiebeleid) voor meer details.
 
-## 3. Hoe lang bewaren we gegevens?
-- Berichten via het contactformulier bewaren we zolang dat nodig is om je aanvraag af te handelen, en daarna maximaal 2 jaar, tenzij je eerder om verwijdering vraagt.
-- Geanonimiseerde bezoekstatistieken bewaren we maximaal 14 maanden.
+## 3. Hoe lang bewaar ik gegevens?
+- Berichten via het contactformulier bewaar ik zolang dat nodig is om je aanvraag af te handelen, en daarna maximaal 2 jaar, tenzij je eerder om verwijdering vraagt.
+- Bezoekstatistieken bevatten geen gegevens waarmee ik je kan identificeren. Ik bewaar ze zolang ik ze nodig heb voor inzicht in het gebruik van de website.
 
-## 4. Delen we gegevens met derden?
-We delen je gegevens niet met derden voor commerciële doeleinden. We maken wel gebruik van de volgende verwerkers, die uitsluitend in onze opdracht en volgens onze instructies gegevens verwerken:
+## 4. Deel ik gegevens met derden?
+Ik deel je gegevens niet met derden voor commerciële doeleinden. Ik maak wel gebruik van de volgende verwerkers, die uitsluitend in mijn opdracht en volgens mijn instructies gegevens verwerken:
 
 - **Supabase** — voor het opslaan van gegevens (database en hosting).
 - **Resend** — voor het versturen van e-mailnotificaties bij een nieuw contactformulier.
@@ -75,12 +75,12 @@ We delen je gegevens niet met derden voor commerciële doeleinden. We maken wel 
 Met deze partijen zijn passende afspraken gemaakt over de bescherming van je gegevens.
 
 ## 5. Beveiliging
-We nemen passende technische en organisatorische maatregelen om je gegevens te beveiligen tegen verlies of onrechtmatig gebruik, waaronder versleutelde verbindingen (HTTPS) en toegangsbeveiliging voor ons beheerderspaneel.
+Ik neem passende technische en organisatorische maatregelen om je gegevens te beveiligen tegen verlies of onrechtmatig gebruik, waaronder versleutelde verbindingen (HTTPS) en toegangsbeveiliging voor het beheerderspaneel.
 
 ## 6. Jouw rechten
 Op grond van de AVG heb je de volgende rechten:
 
-- Recht op inzage in de gegevens die we van je verwerken.
+- Recht op inzage in de gegevens die ik van je verwerk.
 - Recht op rectificatie van onjuiste gegevens.
 - Recht op verwijdering van je gegevens.
 - Recht op beperking van de verwerking.
@@ -90,7 +90,7 @@ Op grond van de AVG heb je de volgende rechten:
 Wil je een van deze rechten uitoefenen? Neem contact op via [{{email}}](mailto:{{email}}). Je hebt ook het recht om een klacht in te dienen bij de Autoriteit Persoonsgegevens.
 
 ## 7. Wijzigingen
-We kunnen dit privacybeleid van tijd tot tijd aanpassen. De meest actuele versie staat altijd op deze pagina.
+Ik kan dit privacybeleid van tijd tot tijd aanpassen. De meest actuele versie staat altijd op deze pagina.
 
 ## 8. Contact
 Heb je vragen over dit privacybeleid? Neem contact op via [{{email}}](mailto:{{email}}).`,
@@ -99,24 +99,50 @@ Heb je vragen over dit privacybeleid? Neem contact op via [{{email}}](mailto:{{e
   cookiebeleid: {
     title: "Cookiebeleid",
     intro:
-      "Deze pagina legt uit welke cookies en vergelijkbare technieken deze website gebruikt en waarom.",
+      "Op deze pagina lees je welke cookies en vergelijkbare technieken de website van {{companyName}} gebruikt. Kort gezegd: ik plaats geen tracking- of marketingcookies, en ik houd bezoekstatistieken bij zonder cookies.",
     content: `## 1. Wat zijn cookies?
-Cookies zijn kleine tekstbestandjes die een website op je apparaat kan plaatsen. Ze kunnen worden gebruikt om instellingen te onthouden of gebruikers te herkennen. Sommige technieken werken vergelijkbaar met cookies, zoals opslag in de browser ("localStorage").
 
-## 2. Welke cookies gebruiken wij?
-Deze website plaatst **geen trackingcookies of marketingcookies**. We gebruiken alleen technisch noodzakelijke opslag:
+Cookies zijn kleine tekstbestanden die een website op je apparaat kan opslaan. Ze worden bijvoorbeeld gebruikt om een inlogsessie te onthouden of om bezoekers over verschillende websites te volgen. Daarnaast bestaan er vergelijkbare technieken, zoals lokale opslag in je browser (localStorage).
 
-- **sb-*-auth-token** (functionele cookie) — houdt de inlogsessie van een beheerder in het beheerderspaneel actief. Wordt alleen geplaatst wanneer iemand inlogt op /admin, niet voor reguliere bezoekers. Bewaartermijn: tot uitloggen of sessie verloopt. Toestemming nodig: nee, strikt noodzakelijk.
-- **cookie-notice-dismissed** (functionele opslag, localStorage) — onthoudt dat je deze cookiemelding hebt gezien en gesloten. Bewaartermijn: tot je browsergegevens wist. Toestemming nodig: nee, strikt noodzakelijk.
+## 2. Welke cookies en opslag gebruikt deze website?
+
+Deze website plaatst **geen trackingcookies, analytische cookies of marketingcookies**. Ik gebruik alleen wat nodig is om de website te laten werken:
+
+- **sb-…-auth-token** (functionele cookie): houdt de inlogsessie van de beheeromgeving actief. Deze cookie wordt alleen geplaatst wanneer een beheerder inlogt via /admin, niet bij gewone bezoekers. Bewaartermijn: tot het uitloggen of tot de sessie verloopt.
+- **cookie-notice-dismissed** (lokale opslag in je browser): onthoudt dat je de cookiemelding hebt gesloten, zodat je die niet bij elk bezoek opnieuw ziet. Bewaartermijn: tot je je browsergegevens wist.
 
 ## 3. Bezoekstatistieken zonder cookies
-Voor inzicht in bezoekersaantallen gebruiken we een privacyvriendelijke, cookieloze methode: we slaan geen IP-adres op en plaatsen geen cookie in je browser. In plaats daarvan berekenen we bij elk paginabezoek server-side een onomkeerbare hash op basis van een dagelijks wisselend, willekeurig geheim. Hierdoor kunnen we globaal het aantal unieke bezoekers per dag schatten, zonder dat bezoekers herkenbaar of over meerdere dagen volgbaar zijn. Omdat deze methode geen of nauwelijks impact heeft op je privacy, is hiervoor volgens de richtlijnen van de Autoriteit Consument & Markt (ACM) geen toestemming vereist. Meer informatie hierover staat in ons [privacybeleid](/privacybeleid).
 
-## 4. Cookies beheren of verwijderen
-Je kunt cookies en opgeslagen browsergegevens altijd zelf beheren of verwijderen via de instellingen van je browser. Omdat we geen trackingcookies gebruiken, heeft dit geen invloed op hoe de website functioneert — met uitzondering van het beheerderspaneel, waar je opnieuw moet inloggen.
+Om te zien welke pagina's worden bezocht, tel ik paginabezoeken zonder cookies en zonder iets op je apparaat op te slaan. Per bezoek bewaar ik alleen de bezochte pagina en een onomkeerbare code (hash). Die code wordt berekend uit je IP-adres en browsertype, gecombineerd met een geheime sleutel die elke dag verandert. Je IP-adres zelf sla ik niet op, en omdat de sleutel dagelijks wisselt, kan ik bezoekers niet over meerdere dagen volgen.
 
-## 5. Vragen
-Heb je vragen over dit cookiebeleid? Neem contact op via [{{email}}](mailto:{{email}}).`,
+## 4. Toestemming
+
+Voor de cookie en de lokale opslag uit hoofdstuk 2 is geen toestemming nodig, omdat ze strikt noodzakelijk zijn. De bezoekstatistieken plaatsen niets op je apparaat. Daarom heeft deze website geen cookie-instellingen. Ga ik in de toekomst cookies gebruiken waarvoor wel toestemming nodig is, dan vraag ik die vooraf en pas ik dit cookiebeleid aan.
+
+## 5. Inhoud van andere partijen
+
+Deze website bevat geen ingesloten inhoud van andere partijen die cookies plaatst, zoals video's, kaarten of social-media-knoppen. Links naar social media en naar websites uit mijn portfolio zijn gewone links. Pas wanneer je zo'n link volgt, gelden de cookieregels van die andere website.
+
+## 6. Cookies beheren of verwijderen
+
+Je kunt cookies en lokaal opgeslagen gegevens altijd bekijken en verwijderen via de instellingen van je browser. Omdat deze website geen tracking- of marketingcookies gebruikt, verandert dat niets aan hoe de website werkt. Je ziet daarna alleen de cookiemelding opnieuw, en als beheerder moet je opnieuw inloggen.
+
+## 7. Privacy
+
+Hoe ik omga met persoonsgegevens, bijvoorbeeld van het contactformulier, lees je in het [privacybeleid](/privacybeleid).
+
+## 8. Wijzigingen
+
+Ik kan dit cookiebeleid aanpassen als de website of de gebruikte technieken veranderen. De meest recente versie staat altijd op deze pagina.
+
+## 9. Contact
+
+Heb je vragen over cookies op deze website? Neem dan contact met mij op:
+
+- Bedrijf: {{companyName}}
+- E-mail: {{email}}
+- Telefoon: {{phone}}
+- Adres: {{address}}`,
   },
 
   "algemene-voorwaarden": {
@@ -126,7 +152,7 @@ Heb je vragen over dit cookiebeleid? Neem contact op via [{{email}}](mailto:{{em
     content: `## Artikel 1 — Definities
 - Opdrachtnemer: {{companyName}}.
 - Opdrachtgever: de natuurlijke of rechtspersoon die een overeenkomst aangaat met opdrachtnemer.
-- Overeenkomst: iedere afspraak tussen opdrachtnemer en opdrachtgever tot het leveren van diensten, zoals het bouwen, verbeteren of onderhouden van een website.
+- Overeenkomst: iedere afspraak tussen opdrachtnemer en opdrachtgever tot het leveren van diensten, zoals het ontwikkelen, verbeteren of onderhouden van websites, software, koppelingen en automatiseringen.
 
 ## Artikel 2 — Toepasselijkheid
 Deze voorwaarden zijn van toepassing op alle offertes en overeenkomsten van opdrachtnemer, tenzij schriftelijk anders is overeengekomen. Afwijkingen zijn alleen geldig indien uitdrukkelijk en schriftelijk overeengekomen.

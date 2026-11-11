@@ -44,12 +44,16 @@ export function CookieBanner() {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-800 bg-slate-950/95 px-4 py-4 backdrop-blur sm:px-6">
-      <div className="mx-auto flex max-w-7xl flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-relaxed text-slate-300">
-          Deze website plaatst geen trackingcookies. We gebruiken alleen technisch
-          noodzakelijke cookies (bijvoorbeeld voor het inloggen in het beheerderspaneel)
-          en een privacyvriendelijke, cookieloze bezoekstatistiek. Lees meer in ons{" "}
+    <div
+      role="region"
+      aria-label="Cookiemelding"
+      className="fixed inset-x-3 bottom-3 z-50 rounded-2xl bg-ink px-5 py-4 text-white shadow-[0_20px_50px_-20px_rgb(0_0_0/0.5)] sm:inset-x-auto sm:bottom-5 sm:right-5 sm:max-w-md"
+    >
+      <div className="flex flex-col items-start gap-3">
+        <p className="text-sm leading-relaxed text-white/75">
+          Deze website plaatst geen trackingcookies. Ik gebruik alleen technisch
+          noodzakelijke cookies (bijvoorbeeld om in te loggen in het beheerscherm)
+          en een privacyvriendelijke bezoekstatistiek zonder cookies. Lees meer in het{" "}
           <Link href="/cookiebeleid" className="font-medium text-white underline underline-offset-2">
             cookiebeleid
           </Link>{" "}
@@ -62,7 +66,7 @@ export function CookieBanner() {
         <button
           type="button"
           onClick={dismiss}
-          className="shrink-0 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
+          className="shrink-0 rounded-full bg-paper px-5 py-2 text-sm font-semibold text-ink transition-colors hover:bg-signal hover:text-white"
         >
           Begrepen
         </button>

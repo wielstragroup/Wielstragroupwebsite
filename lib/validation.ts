@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { BUDGET_VALUES, REQUEST_TYPE_VALUES, SERVICE_VALUES } from "@/lib/contact-options";
 import { isSafeUrl } from "@/lib/security";
 
 /**
@@ -47,12 +48,27 @@ export const legalPageSchema = z.object({
 });
 
 export const contactSchema = z.object({
-  name: z.string().trim().min(2).max(120),
-  companyName: z.string().trim().max(120),
-  email: z.string().trim().email().max(160),
-  message: z.string().trim().min(20).max(3000),
+  requestType: z.enum(REQUEST_TYPE_VALUES, { message: "Kies waarmee ik je kan helpen." }),
+  service: z.enum(SERVICE_VALUES, { message: "Kies een onderwerp." }),
+  budget: z.enum(BUDGET_VALUES).catch(""),
+  name: z.string().trim().min(2, "Vul je naam in (minimaal 2 tekens).").max(120, "Je naam is te lang."),
+  companyName: z.string().trim().max(120, "De bedrijfsnaam is te lang."),
+  email: z.string().trim().email("Vul een geldig e-mailadres in.").max(160, "Het e-mailadres is te lang."),
+  phone: z
+    .string()
+    .trim()
+    .max(30, "Het telefoonnummer is te lang.")
+    .regex(/^[+()\d\s-]*$/, "Gebruik alleen cijfers, spaties, +, - of haakjes."),
+  message: z
+    .string()
+    .trim()
+    .min(20, "Vertel iets meer over je vraag (minimaal 20 tekens).")
+    .max(3000, "Je bericht is te lang (maximaal 3000 tekens)."),
+  consent: z.literal("on", { message: "Geef toestemming om je gegevens te verwerken." }),
   website: z.string().optional(),
 });
+
+export type ContactInput = z.infer<typeof contactSchema>;
 
 /** Ondersteunde social-platforms in de website-instellingen. */
 export const SOCIAL_PLATFORMS = [

@@ -52,12 +52,11 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   address: "",
   copyrightText: "",
 
-  ctaLabel: "Bespreek je project",
+  ctaLabel: "Plan een kennismaking",
   ctaUrl: "/contact",
 
-  defaultSeoTitle: "Wielstra Group | Websites voor lokale ondernemers",
-  defaultMetaDescription:
-    "Wielstra Group bouwt moderne websites en online diensten voor lokale ondernemers. Persoonlijk contact, duidelijke communicatie en resultaat.",
+  defaultSeoTitle: "",
+  defaultMetaDescription: "",
   defaultOgImage: "",
 
   contactFormEnabled: true,
